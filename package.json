@@ -1,12 +1,12 @@
 {
-  "name": "cipher-json",
+  "name": "json-cipher-value",
   "version": "1.0.0",
   "description": "Recursively encrypt/decrypt object values retaining their types.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/nbarikipoulos/cipher-json#readme",
+  "homepage": "https://github.com/nbarikipoulos/json-cipher-value#readme",
   "author": "Nikolaos Barikipoulos <nikolaos.barikipoulos@outlook.fr>",
   "license": "MIT",
   "keywords": [
@@ -21,7 +21,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/nbarikipoulos/cipher-json.git"
+    "url": "https://github.com/nbarikipoulos/json-cipher-value.git"
   },
   "engines": {
     "node": ">=8.0.0"

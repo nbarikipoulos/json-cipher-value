@@ -1,6 +1,6 @@
-# cipher-json
+# Json Cipher Value
 
-cipher-json is a simple encrypt and decrypt module for node.js that performs recursive encryption of object values and retains their types.
+json-cipher-value is a simple encrypt and decrypt module for node.js that performs recursive encryption of object values and retains their types.
 
 Note:
 - Default settings perform an aes-256-ctr ciphering,
