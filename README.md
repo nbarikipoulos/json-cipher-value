@@ -9,7 +9,7 @@ Note:
 ## Install
 
 ```shell
-npm install cipher-js
+npm install json-cipher-value --save
 ```
 
 ## Usage
