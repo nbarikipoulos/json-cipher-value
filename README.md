@@ -24,7 +24,7 @@ npm install json-cipher-value --save
   let object = {
     a: 'a value',
     c: {
-      a: [1, 3.1, "2.2", true, false]
+      a: [1, 3.1, '2.2', true, false]
     }
   };
 
