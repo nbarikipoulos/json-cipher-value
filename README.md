@@ -5,7 +5,7 @@ json-cipher-value is a simple encrypting and decrypting module for node.js that 
 Note:
 - This module is based on the build-in crypto node module,
 - Default settings perform an aes-256-ctr ciphering,
-- The iv is randomly generated and appended to the result.
+- An iv is randomly generated for each value and appended to the result.
 
 ## Install
 
