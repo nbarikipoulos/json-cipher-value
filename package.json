@@ -1,6 +1,6 @@
 {
   "name": "json-cipher-value",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recursively encrypt/decrypt object values retaining their types.",
   "main": "index.js",
   "scripts": {
