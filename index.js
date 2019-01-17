@@ -9,6 +9,6 @@
  */
 'use strict'
 
-const CryptObject = require('./lib/CryptData').CryptObject;
+const CryptObject = require('./lib/cryptObjects').CryptObject;
 
 module.exports = (secret, options) => new CryptObject(secret, options);
