@@ -1,4 +1,5 @@
-# JSON Cipher Value [![NPM version][npm-image]][npm-url]
+# JSON Cipher Value
+[![NPM version][npm-image]][npm-url]
 
 json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object values and retains their types.
 
@@ -24,27 +25,28 @@ npm install json-cipher-value --save
 
   let object = {
     a: 'a value',
-    c: {
-      a: [1, 3.1, '2.2', true, false]
+    b: {
+      a: [1, 3.1, '2.2', true, true, false]
     }
   };
 
   let encryptedObject = cryptObject.encrypt(object);
   //{
-  //  a: 'd305ce990639fdd033654b5444f2b190sfb87990183274a',
-  //  c: {
+  //  a: '35747569f964d575521a0205b8d21af8eab60b69c30d2fe5',
+  //  b: {
   //    a: [
-  //        'cd743602a0151b91ef99d3ed91e497aen6c',
-  //        '1aadd6df001f3bceabc642c17290099cn6d134e',
-  //        '0c4c8e12851eab3e1290cda3a4ec7be6s133157',
-  //        'ed453ca93ef320840ac43015283dabf3bd71a5b4a',
-  //        '3c4ea6a9a7be06aaaa85d88531e07824b00c515adcc'
+  //        '7f7e507e96b07807661d6e531f6b4e489205',
+  //        'a6af3a7c1d52a8163a196c4487256c584a0943e9',
+  //        'eed2d3bf77a9d0fa51449268dc6c1553fd6257ba',
+  //        'bf0fca31bf46d5611899cf9e53f49f28d317bebcf8',
+  //        '10c58a69fd3bcf904cf5860e423d081cf6d2646227',
+  //        'dda317d5e23e5f14423c44ee46b9bf49c762ee23ed49' 
   //    ]
   //  }
   //}
 
   let decryptedObject = cryptObject.decrypt(encryptedObject)
-  // { a: 'a value', c: { a: [ 1, 3.1, '2.2', true, false ] } }
+  // { a: 'a value', b: { a: [ 1, 3.1, '2.2', true, true, false ] } }
 ```
 
 ## Credits
