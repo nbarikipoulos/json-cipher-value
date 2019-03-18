@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://github.com/nbarikipoulos/json-cipher-value#readme",
-  "author": "Nikolaos Barikipoulos <nikolaos.barikipoulos@outlook.fr>",
+  "author": "Nicolas Barriquand <nicolas.barriquand@outlook.fr>",
   "license": "MIT",
   "keywords": [
     "object",

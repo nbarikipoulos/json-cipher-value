@@ -51,7 +51,7 @@ npm install json-cipher-value --save
 
 ## Credits
 
-- Nikolaos Barikipoulos ([nbarikipoulos](https://github.com/nbarikipoulos))
+- Nicolas Barriquand ([nbarikipoulos](https://github.com/nbarikipoulos))
 
 ## License
 
