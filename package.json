@@ -4,6 +4,7 @@
   "description": "Recursively encrypt/decrypt object values retaining their types.",
   "main": "index.js",
   "scripts": {
+    "gendoc": "$(npm bin)/markdown-toc -i README.md &&cd doc/jsdoc2md && $(npm bin)/jsdoc2md -t api.hbs > ../api.md;echo",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://github.com/nbarikipoulos/json-cipher-value#readme",
@@ -19,6 +20,10 @@
     "aes256"
   ],
   "dependencies": {},
+  "devDependencies": {
+    "jsdoc-to-markdown": "^5.0.0",
+    "markdown-toc": "^1.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/nbarikipoulos/json-cipher-value.git"
