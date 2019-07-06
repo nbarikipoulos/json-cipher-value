@@ -1,4 +1,5 @@
 # JSON Cipher Value
+
 [![NPM version][npm-image]][npm-url]
 
 json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object values retaining their types.
@@ -53,7 +54,7 @@ npm install json-cipher-value --save
   //        'eed2d3bf77a9d0fa51449268dc6c1553fd6257ba',
   //        'bf0fca31bf46d5611899cf9e53f49f28d317bebcf8',
   //        '10c58a69fd3bcf904cf5860e423d081cf6d2646227',
-  //        'dda317d5e23e5f14423c44ee46b9bf49c762ee23ed49' 
+  //        'dda317d5e23e5f14423c44ee46b9bf49c762ee23ed49'
   //    ]
   //  }
   //}
