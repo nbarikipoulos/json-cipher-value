@@ -51,8 +51,8 @@ Internal module objects of interest.
         * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
     * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
         * [new CryptObject(secret, [options])](#new_module_cryptObjects..CryptObject_new)
-        * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>object</code>
-        * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>object</code>
+        * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
+        * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
         * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
         * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
     * _Typedefs_
@@ -120,8 +120,8 @@ Object in charge to (un)cipher js object values.
 
 * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
     * [new CryptObject(secret, [options])](#new_module_cryptObjects..CryptObject_new)
-    * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>object</code>
-    * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>object</code>
+    * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
+    * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
     * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
     * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
 
@@ -138,18 +138,18 @@ Create a new CryptData object using specifed options.
 
 <a name="module_cryptObjects..CryptObject+encrypt"></a>
 
-#### cryptObject.encrypt(object) : <code>object</code>
+#### cryptObject.encrypt(object) : <code>Object</code>
 Cipher object. It returns a copy of the object containing with its values ciphered.
 
 **Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| object | <code>object</code> | Object to cipher. |
+| object | <code>Object</code> | Object to cipher. |
 
 <a name="module_cryptObjects..CryptObject+decrypt"></a>
 
-#### cryptObject.decrypt(object) : <code>object</code>
+#### cryptObject.decrypt(object) : <code>Object</code>
 Uncipher object. It returns a copy of the ciphered object with unciphered values.
 
 Note this unciphering step must be done using the same settings as for ciphering.
@@ -158,7 +158,7 @@ Note this unciphering step must be done using the same settings as for ciphering
 
 | Param | Type | Description |
 | --- | --- | --- |
-| object | <code>object</code> | Ciphered object to uncipher. |
+| object | <code>Object</code> | Ciphered object to uncipher. |
 
 <a name="module_cryptObjects..CryptData+encryptd"></a>
 
