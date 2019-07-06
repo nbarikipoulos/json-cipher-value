@@ -14,7 +14,7 @@ a (un)ciphering object.
 Note default settings are performing an aes-256-crt ciphering.
 
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information.  
-**Version**: 1.1.1  
+**Version**: 1.1.2  
 <a name="exp_module_json-cipher-value--factory"></a>
 
 ### factory(secret, [options]) : [<code>CryptObject</code>](#module_cryptObjects..CryptObject) ⏏
