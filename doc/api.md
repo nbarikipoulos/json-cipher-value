@@ -45,18 +45,70 @@ Internal module objects of interest.
 
 
 * [cryptObjects](#module_cryptObjects)
+    * [~CryptData](#module_cryptObjects..CryptData)
+        * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
+        * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
+        * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
     * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
         * [new CryptObject(secret, [options])](#new_module_cryptObjects..CryptObject_new)
         * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>object</code>
         * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>object</code>
         * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
         * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-    * [~CryptData](#module_cryptObjects..CryptData)
-        * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
-        * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-        * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
     * _Typedefs_
         * [~Options](#module_cryptObjects..Options) : <code>Object</code>
+
+<a name="module_cryptObjects..CryptData"></a>
+
+### cryptObjects~CryptData
+Intermediate object that handles single data (un)ciphering.
+
+**Kind**: inner class of [<code>cryptObjects</code>](#module_cryptObjects)  
+
+* [~CryptData](#module_cryptObjects..CryptData)
+    * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
+    * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
+    * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
+
+<a name="new_module_cryptObjects..CryptData_new"></a>
+
+#### new CryptData(secret, [options])
+Create a new CryptData object using specifed options.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| secret | <code>string</code> | The secret key or password that will be used to create the  key for (un)ciphering step. |
+| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.   Use of default settings performs an aes-256-crt ciphering. |
+
+<a name="module_cryptObjects..CryptData+encryptd"></a>
+
+#### cryptData.encryptd(data) : <code>string</code>
+Cipher a given data.
+
+For each call, an iv vector will be randomly generated.
+
+Note retained type are integer, boolean, or string. All other kind of values
+will be treated as string.
+
+**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> \| <code>\*</code> | Data to cipher. |
+
+<a name="module_cryptObjects..CryptData+decryptd"></a>
+
+#### cryptData.decryptd(data) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
+Uncipher data.
+
+For this step, note the CryptData object **must be initialized with the same options as for the ciphering** step.
+
+**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>string</code> | Data to uncipher. |
 
 <a name="module_cryptObjects..CryptObject"></a>
 
@@ -134,58 +186,6 @@ For this step, note the CryptData object **must be initialized with the same opt
 
 **Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
 **Overrides**: [<code>decryptd</code>](#module_cryptObjects..CryptData+decryptd)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>string</code> | Data to uncipher. |
-
-<a name="module_cryptObjects..CryptData"></a>
-
-### cryptObjects~CryptData
-Intermediate object that handles single data (un)ciphering.
-
-**Kind**: inner class of [<code>cryptObjects</code>](#module_cryptObjects)  
-
-* [~CryptData](#module_cryptObjects..CryptData)
-    * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
-    * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-    * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-
-<a name="new_module_cryptObjects..CryptData_new"></a>
-
-#### new CryptData(secret, [options])
-Create a new CryptData object using specifed options.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| secret | <code>string</code> | The secret key or password that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.   Use of default settings performs an aes-256-crt ciphering. |
-
-<a name="module_cryptObjects..CryptData+encryptd"></a>
-
-#### cryptData.encryptd(data) : <code>string</code>
-Cipher a given data.
-
-For each call, an iv vector will be randomly generated.
-
-Note retained type are integer, boolean, or string. All other kind of values
-will be treated as string.
-
-**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> \| <code>\*</code> | Data to cipher. |
-
-<a name="module_cryptObjects..CryptData+decryptd"></a>
-
-#### cryptData.decryptd(data) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-Uncipher data.
-
-For this step, note the CryptData object **must be initialized with the same options as for the ciphering** step.
-
-**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
 
 | Param | Type | Description |
 | --- | --- | --- |
