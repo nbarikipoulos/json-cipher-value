@@ -16,7 +16,7 @@
  * Note default settings are performing an aes-256-crt ciphering.
  *
  * @module json-cipher-value
- * @version 1.1.2
+ * @version 1.1.3
  * @see {@link https://nodejs.org/api/crypto.html} for further information.
  */
 
