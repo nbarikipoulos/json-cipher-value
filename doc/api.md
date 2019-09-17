@@ -1,7 +1,7 @@
 # json-cipher-value API Reference
 
 This module is a simple encrypting and decrypting module
-based on the build-in [crypto](https://nodejs.org/api/crypto.html) node module. It performs 
+based on the build-in [crypto](https://nodejs.org/api/crypto.html) node module. It performs
 **recursive** encrypting of object values remaining their types.
 
 It is mainly based on the [crypto.createcipheriv](https://nodejs.org/api/crypto.html#crypto_crypto_createcipheriv_algorithm_key_iv_options)
@@ -25,20 +25,20 @@ Factory that creates a (un)ciphering object.
 | Param | Type | Description |
 | --- | --- | --- |
 | secret | <code>string</code> | The secret key or pawssord that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.   Use of default settings performs an aes-256-crt ciphering. |
+| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
 
 **Example**  
 ```js
-const createCryptObject = require('json-cipher-value');
+const createCryptObject = require('json-cipher-value')
 
-let secret = 'My secret password';
-let object = {...}; // Object to cipher
+const secret = 'My secret password'
+let object = {...} // Object to cipher
 
-let cryptObject = createCryptObject(secret);
+let cryptObject = createCryptObject(secret)
 
-let encryptedObject = cryptObject.encrypt(object);
+let encryptedObject = cryptObject.encrypt(object)
 
-let decryptedObject = cryptObject.decrypt(encryptedObject);
+let decryptedObject = cryptObject.decrypt(encryptedObject)
 ```
 
 Internal module objects of interest.
@@ -50,7 +50,6 @@ Internal module objects of interest.
         * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
         * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
     * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
-        * [new CryptObject(secret, [options])](#new_module_cryptObjects..CryptObject_new)
         * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
         * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
         * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
@@ -79,7 +78,7 @@ Create a new CryptData object using specifed options.
 | Param | Type | Description |
 | --- | --- | --- |
 | secret | <code>string</code> | The secret key or password that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.   Use of default settings performs an aes-256-crt ciphering. |
+| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
 
 <a name="module_cryptObjects..CryptData+encryptd"></a>
 
@@ -119,22 +118,10 @@ Object in charge to (un)cipher js object values.
 **Extends**: [<code>CryptData</code>](#module_cryptObjects..CryptData)  
 
 * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
-    * [new CryptObject(secret, [options])](#new_module_cryptObjects..CryptObject_new)
     * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
     * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
     * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
     * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-
-<a name="new_module_cryptObjects..CryptObject_new"></a>
-
-#### new CryptObject(secret, [options])
-Create a new CryptData object using specifed options.
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| secret | <code>string</code> | The secret key or password that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.   Use of default settings performs an aes-256-crt ciphering. |
 
 <a name="module_cryptObjects..CryptObject+encrypt"></a>
 
@@ -171,7 +158,6 @@ Note retained type are integer, boolean, or string. All other kind of values
 will be treated as string.
 
 **Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
-**Overrides**: [<code>encryptd</code>](#module_cryptObjects..CryptData+encryptd)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -185,7 +171,6 @@ Uncipher data.
 For this step, note the CryptData object **must be initialized with the same options as for the ciphering** step.
 
 **Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
-**Overrides**: [<code>decryptd</code>](#module_cryptObjects..CryptData+decryptd)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -208,5 +193,5 @@ available algorithms and theirs iv lengths.
 | --- | --- | --- | --- |
 | [algo] | <code>string</code> | <code>&quot;aes-256-crt&quot;</code> | the algorithm to use. |
 | [ivLength] | <code>int</code> | <code>16</code> | its initialization vector length. |
-| [isTyped] | <code>boolean</code> | <code>true</code> | if true, the type of values should be retained.   Otherwise values will be ciphered as string. |
+| [isTyped] | <code>boolean</code> | <code>true</code> | if true, the type of values should be retained.  Otherwise values will be ciphered as string. |
 

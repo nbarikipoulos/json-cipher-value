@@ -1,6 +1,7 @@
 # JSON Cipher Value
 
 [![NPM version][npm-image]][npm-url]
+[![JavaScript Style Guide][standard-image]][standard-url]
 
 json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object values retaining their types.
 
@@ -32,19 +33,19 @@ npm install json-cipher-value --save
 
 ```js
 
-  const createCryptObject = require('json-cipher-value');
+  const createCryptObject = require('json-cipher-value')
 
-  let secret = 'My secret password';
-  let cryptObject = createCryptObject(secret);
+  const secret = 'My secret password'
+  const cryptObject = createCryptObject(secret)
 
   let object = {
     a: 'a value',
     b: {
       a: [1, 3.1, '2.2', true, true, false]
     }
-  };
+  }
 
-  let encryptedObject = cryptObject.encrypt(object);
+  let encryptedObject = cryptObject.encrypt(object)
   //{
   //  a: '35747569f964d575521a0205b8d21af8eab60b69c30d2fe5',
   //  b: {
@@ -59,7 +60,7 @@ npm install json-cipher-value --save
   //  }
   //}
 
-  let decryptedObject = cryptObject.decrypt(encryptedObject);
+  let decryptedObject = cryptObject.decrypt(encryptedObject)
   // { a: 'a value', b: { a: [ 1, 3.1, '2.2', true, true, false ] } }
 ```
 
@@ -77,3 +78,5 @@ This module is MIT licensed. See [LICENSE](./LICENSE.md).
 
 [npm-url]: https://www.npmjs.com/package/json-cipher-value
 [npm-image]: https://img.shields.io/npm/v/json-cipher-value.svg
+[standard-url]: https://standardjs.com
+[standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
