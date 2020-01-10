@@ -59,11 +59,16 @@ const perform = (action, argv) => {
   const cryptObject = factory(secret, options)
 
   const cipher = through2.obj((file, enc, cb) => {
-    const data = cryptObject[fname](
-      JSON.parse(file.contents)
-    )
-    file.contents = Buffer.from(JSON.stringify(data, null, 2))
-    cb(null, file)
+    try {
+      const json = JSON.parse(file.contents)
+      const data = cryptObject[fname](json)
+      file.contents = Buffer.from(JSON.stringify(data, null, 2))
+      cb(null, file)
+    } catch (e) {
+      // failed to parse json/(de)cipher it
+      console.log(`Warning: unable to ${action} ${file.path}`)
+      cb(null, null)
+    }
   })
 
   const renameFile = (ext) => through2.obj((file, enc, cb) => {
