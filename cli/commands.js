@@ -20,7 +20,7 @@ module.exports = yargs => yargs
     yargs => addOptions(
       yargs,
       'cipher',
-      'dest'
+      'dest', 'extension'
     ),
     argv => perform('cipher', argv)
   )
@@ -50,7 +50,7 @@ const perform = (action, argv) => {
   const secret = argv.secret
 
   const fname = action === 'cipher' ? 'encrypt' : 'decrypt'
-  const ext = action === 'cipher' ? '.cjson' : '.json'
+  const ext = action === 'cipher' ? argv.E : '.json'
 
   const tgtFolder = argv.d
     ? argv.d
@@ -66,7 +66,6 @@ const perform = (action, argv) => {
     cb(null, file)
   })
 
-  // const identity = through2.obj((file, enc, cb) => { cb(null, file.path) })
   const renameFile = (ext) => through2.obj((file, enc, cb) => {
     file.extname = ext
     cb(null, file)
