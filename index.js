@@ -1,4 +1,4 @@
-/*! Copyright (c) 2019 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
+/*! Copyright (c) 2019-2020 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
 
 /**
  *
@@ -16,7 +16,7 @@
  * Note default settings are performing an aes-256-crt ciphering.
  *
  * @module json-cipher-value
- * @version 1.1.3
+ * @version 1.2.0
  * @see {@link https://nodejs.org/api/crypto.html} for further information.
  */
 
