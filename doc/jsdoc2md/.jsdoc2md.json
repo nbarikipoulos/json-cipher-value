@@ -1,6 +1,6 @@
 {
-    "files": [
-        "../../index.js",
-        "../../lib/cryptObjects.js"
-    ]
+  "files": [
+    "../../index.js",
+    "../../lib/cryptObjects.js"
+  ]
 }
