@@ -3,7 +3,7 @@
 [![NPM version][npm-image]][npm-url]
 [![JavaScript Style Guide][standard-image]][standard-url]
 
-json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object values retaining their types.
+json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object/json values retaining their types.
 
 Note:
 
@@ -11,12 +11,15 @@ Note:
 - Default settings perform an aes-256-ctr ciphering,
 - An iv is randomly generated for each value and appended to the result.
 
+Furthermore, it is provided a [CLI](#cli) in order to cipher json files.
+
 ## Table of Contents
 
 <!-- toc -->
 
 - [Install](#install)
 - [Usage](#usage)
+- [CLI](#cli)
 - [API](#api)
 - [Credits](#credits)
 - [License](#license)
@@ -38,14 +41,14 @@ npm install json-cipher-value --save
   const secret = 'My secret password'
   const cryptObject = createCryptObject(secret)
 
-  let object = {
+  const object = {
     a: 'a value',
     b: {
       a: [1, 3.1, '2.2', true, true, false]
     }
   }
 
-  let encryptedObject = cryptObject.encrypt(object)
+  const encryptedObject = cryptObject.encrypt(object)
   //{
   //  a: '35747569f964d575521a0205b8d21af8eab60b69c30d2fe5',
   //  b: {
@@ -60,9 +63,20 @@ npm install json-cipher-value --save
   //  }
   //}
 
-  let decryptedObject = cryptObject.decrypt(encryptedObject)
+  const decryptedObject = cryptObject.decrypt(encryptedObject)
   // { a: 'a value', b: { a: [ 1, 3.1, '2.2', true, true, false ] } }
 ```
+
+## CLI
+  This module is provided with a CLI in order to cipher json files:
+  - It performs (de)ciphering with the default algorithm used by this package _i.e._ the aes-256-ctr one's,
+  - It optionnally allows modifying ciphered file extension or target folder.
+
+```shell
+  cipher-json cipher src/data/**/*.json 'My secret password'
+  cipher-json decipher src/data/**/*.cjson 'My secret password'
+```
+Further details available adding -h flag.
 
 ## API
 
