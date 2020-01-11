@@ -2,6 +2,8 @@
 
 [![NPM version][npm-image]][npm-url]
 [![JavaScript Style Guide][standard-image]][standard-url]
+[![Dependency Status][david-image]][david-url]
+[![devDependency Status][david-dev-image]][david-dev-url]
 
 json-cipher-value is a simple encrypting and decrypting module for node.js that performs recursive encryption of object/json values retaining their types.
 
@@ -94,3 +96,7 @@ This module is MIT licensed. See [LICENSE](./LICENSE.md).
 [npm-image]: https://img.shields.io/npm/v/json-cipher-value.svg
 [standard-url]: https://standardjs.com
 [standard-image]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+[david-image]: https://img.shields.io/david/nbarikipoulos/json-cipher-value.svg
+[david-url]: https://david-dm.org/nbarikipoulos/json-cipher-value
+[david-dev-image]: https://img.shields.io/david/dev/nbarikipoulos/json-cipher-value.svg
+[david-dev-url]: https://david-dm.org/nbarikipoulos/json-cipher-value?type=dev
