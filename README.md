@@ -11,7 +11,7 @@ Note:
 - Default settings perform an aes-256-ctr ciphering,
 - An iv is randomly generated for each value and appended to the result.
 
-Furthermore, it is provided a [CLI](#cli) in order to cipher json files.
+Furthermore, it is provided with a [CLI](#cli) in order to cipher json files.
 
 ## Table of Contents
 
