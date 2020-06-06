@@ -1,6 +1,6 @@
 {
   "name": "json-cipher-value",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Recursively encrypt/decrypt object values retaining their types.",
   "bin": {
     "cipher-json": "./bin/cli.js"
@@ -28,7 +28,7 @@
     "yargs": "^15.1.0"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^5.0.0",
+    "jsdoc-to-markdown": "^6.0.1",
     "markdown-toc": "^1.2.0",
     "standard": "*"
   },
