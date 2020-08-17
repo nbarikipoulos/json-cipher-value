@@ -16,10 +16,8 @@
   "keywords": [
     "object",
     "json",
-    "crypto",
-    "cipher",
-    "encrypt",
-    "decrypt",
+    "ciphering",
+    "deciphering",
     "aes256"
   ],
   "dependencies": {
