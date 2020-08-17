@@ -193,5 +193,4 @@ available algorithms and theirs iv lengths.
 | --- | --- | --- | --- |
 | [algo] | <code>string</code> | <code>&quot;aes-256-crt&quot;</code> | the algorithm to use. |
 | [ivLength] | <code>int</code> | <code>16</code> | its initialization vector length. |
-| [isTyped] | <code>boolean</code> | <code>true</code> | if true, the type of values should be retained.  Otherwise values will be ciphered as string. |
 
