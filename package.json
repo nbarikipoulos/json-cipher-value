@@ -33,6 +33,7 @@
     "mocha": "^8.1.1",
     "standard": "*"
   },
+  "files": ["/lib", "/cli", "/doc/api.md"],
   "repository": {
     "type": "git",
     "url": "https://github.com/nbarikipoulos/json-cipher-value.git"
