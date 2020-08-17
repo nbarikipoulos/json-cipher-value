@@ -2,6 +2,9 @@
 
 'use strict'
 
+const util = require('util')
+const stream = require('stream')
+
 const through2 = require('through2')
 const vfs = require('vinyl-fs')
 
@@ -45,7 +48,7 @@ module.exports = yargs => yargs
 // Main job
 // ////////////////////////////////
 
-const perform = (action, argv) => {
+const perform = async (action, argv) => {
   const options = {}
   const secret = argv.secret
 
@@ -76,11 +79,13 @@ const perform = (action, argv) => {
     cb(null, file)
   })
 
-  vfs.src(argv.file)
-    .pipe(cipher)
-    .pipe(renameFile(ext))
-    .pipe(vfs.dest(tgtFolder))
-    .on('finish', _ => { console.log('Done') })
+  const pipeline = util.promisify(stream.pipeline)
+  await pipeline(
+    vfs.src(argv.file),
+    cipher,
+    renameFile(ext),
+    vfs.dest(tgtFolder)
+  )
 }
 
 // ////////////////////////////////
