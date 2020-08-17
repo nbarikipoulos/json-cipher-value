@@ -1,0 +1,20 @@
+{
+  "name": "A team",
+  "members": [{
+    "firstname": "John",
+    "lastname": "Smith",
+    "nickname": "Hannibal"
+  }, {
+    "firstname": "Bosco",
+    "lastname": "Baracus",
+    "nickname": "B.A."
+  }, {
+    "firstname": "Henry",
+    "lastname": "Murdock",
+    "nickname": "Howling Mad"
+  }, {
+    "firstname": "Templeton",
+    "lastname": "Peck",
+    "nickname": "Faceman"
+  }]
+}
