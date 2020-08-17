@@ -2,6 +2,9 @@
 'use strict'
 
 const assert = require('assert')
+const fs = require('fs')
+const rimraf = require('rimraf')
+const rewire = require('rewire')
 
 const { CryptData, CryptObject } = require('../lib/cryptObjects')
 const tr = require('../lib/tr')
@@ -293,5 +296,82 @@ describe('Module facing factory', () => {
         ivLength: config.ivLength
       }
     )
+  })
+})
+
+// ///////////////////////////////////////
+// File ciphering (CLI)
+// ///////////////////////////////////////
+
+describe('CLI test (files)', () => {
+  const perform = rewire('../cli/commands').__get__('perform')
+  const secret = 'My secret password'
+  const testDir = `${process.cwd()}/test_dir`
+
+  before(() => {
+    rimraf.sync(testDir)
+  })
+
+  describe('Cipher file', () => {
+    let src, srcObject, tgt, resultObject
+
+    before(() => {
+      src = `${__dirname}/ateam.json`
+      srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
+      tgt = `${testDir}/ateam.cjson`
+    })
+
+    it('Should not throw', async () => {
+      await perform('cipher', {
+        file: src,
+        secret,
+        E: '.cjson',
+        d: testDir
+      })
+      resultObject = JSON.parse(fs.readFileSync(tgt, 'utf8'))
+    })
+
+    it('JSON structure should have been retained', () => {
+      const r1 = tr(resultObject, v => '')
+      const s1 = tr(srcObject, v => '')
+      assert.deepStrictEqual(r1, s1)
+    })
+
+    it('Values should have been ciphered', () => {
+      const cipherObject = factory(secret)
+      const decipheredResult = tr(resultObject, v => cipherObject.decryptd(v))
+      assert.deepStrictEqual(decipheredResult, srcObject)
+    })
+  })
+
+  describe('Decipher file', () => {
+    let src, srcObject, tgt, resultObject
+
+    before(() => {
+      src = `${__dirname}/ateam.cjson`
+      srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
+      tgt = `${testDir}/ateam.json`
+    })
+
+    it('Should not throw', async () => {
+      await perform('uncipher', {
+        file: src,
+        secret,
+        d: testDir
+      })
+
+      resultObject = JSON.parse(fs.readFileSync(tgt, 'utf8'))
+    })
+
+    it('JSON structure should have been retained', () => {
+      const r1 = tr(resultObject, v => '')
+      const s1 = tr(srcObject, v => '')
+      assert.deepStrictEqual(r1, s1)
+    })
+
+    it('Values should have been deciphered', () => {
+      const refObject = JSON.parse(fs.readFileSync(`${__dirname}/ateam.json`, 'utf8'))
+      assert.deepStrictEqual(resultObject, refObject)
+    })
   })
 })
