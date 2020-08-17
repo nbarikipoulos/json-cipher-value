@@ -23,6 +23,7 @@ Furthermore, it is provided with a [CLI](#cli) in order to cipher json files.
 - [Usage](#usage)
 - [CLI](#cli)
 - [API](#api)
+- [Running Tests](#running-tests)
 - [Credits](#credits)
 - [License](#license)
 
@@ -78,11 +79,21 @@ npm install json-cipher-value --save
   cipher-json cipher src/data/**/*.json 'My secret password'
   cipher-json decipher src/data/**/*.cjson 'My secret password'
 ```
-Further details available adding -h flag.
+Use -h for further details/available options.
 
 ## API
 
 See [API.md](./doc/api.md) for more details.
+
+## Running Tests
+
+Typing:
+
+```
+npm run test
+```
+
+will launch a set of unity and functional tests as well as checking the compliancy of code with standardjs.
 
 ## Credits
 
