@@ -21,7 +21,6 @@
     "aes256"
   ],
   "dependencies": {
-    "through2": "^3.0.1",
     "vinyl-fs": "^3.0.3",
     "yargs": "^15.1.0"
   },

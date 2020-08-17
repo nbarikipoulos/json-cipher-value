@@ -5,10 +5,11 @@
 const util = require('util')
 const stream = require('stream')
 
-const through2 = require('through2')
+// const through2 = require('through2')
 const vfs = require('vinyl-fs')
 
 const factory = require('../index')
+const { Stream } = require('stream')
 
 // ////////////////////////////////
 // ////////////////////////////////
@@ -61,7 +62,8 @@ const perform = async (action, argv) => {
 
   const cryptObject = factory(secret, options)
 
-  const cipher = through2.obj((file, enc, cb) => {
+  const cipher = new stream.Transform({ objectMode: true })
+  cipher._transform = (file, enc, cb) => {
     try {
       const json = JSON.parse(file.contents)
       const data = cryptObject[fname](json)
@@ -72,12 +74,16 @@ const perform = async (action, argv) => {
       console.log(`Warning: unable to ${action} ${file.path}`)
       cb(null, null)
     }
-  })
+  }
 
-  const renameFile = (ext) => through2.obj((file, enc, cb) => {
-    file.extname = ext
-    cb(null, file)
-  })
+  const renameFile = (ext) => {
+    const transform = new Stream.Transform({ objectMode: true })
+    transform._transform = (file, enc, cb) => {
+      file.extname = ext
+      cb(null, file)
+    }
+    return transform
+  }
 
   const pipeline = util.promisify(stream.pipeline)
   await pipeline(
