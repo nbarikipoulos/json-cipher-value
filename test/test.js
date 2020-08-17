@@ -9,12 +9,10 @@ const factory = require('../index')
 
 const DEFAULT_ALGO = 'aes-256-ctr'
 const DEFAULT_IV_LENGTH = 16
-const DEFAULT_IS_TYPED = true
 
 const DEFAULT_CFGS = [
   { desc: 'algo', prop: '_algo', value: DEFAULT_ALGO },
-  { desc: 'iv length', prop: '_ivLength', value: DEFAULT_IV_LENGTH },
-  { desc: 'typed', prop: '_isTyped', value: DEFAULT_IS_TYPED }
+  { desc: 'iv length', prop: '_ivLength', value: DEFAULT_IV_LENGTH }
 ]
 
 // ///////////////////////////////////////
@@ -273,12 +271,10 @@ describe('Module facing factory', () => {
     assert.deepStrictEqual(
       {
         algo: cipherObject._algo,
-        ivLength: cipherObject._ivLength,
-        isTyped: cipherObject._isTyped
+        ivLength: cipherObject._ivLength
       }, {
         algo: DEFAULT_ALGO,
-        ivLength: DEFAULT_IV_LENGTH,
-        isTyped: DEFAULT_IS_TYPED
+        ivLength: DEFAULT_IV_LENGTH
       }
     )
   })
@@ -291,12 +287,10 @@ describe('Module facing factory', () => {
     assert.deepStrictEqual(
       {
         algo: cipherObject._algo,
-        ivLength: cipherObject._ivLength,
-        isTyped: cipherObject._isTyped
+        ivLength: cipherObject._ivLength
       }, {
         algo: config.algo,
-        ivLength: config.ivLength,
-        isTyped: DEFAULT_IS_TYPED
+        ivLength: config.ivLength
       }
     )
   })
