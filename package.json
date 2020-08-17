@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "gendoc": "markdown-toc -i README.md &&cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md",
-    "test": "standard"
+    "test": "standard && mocha"
   },
   "homepage": "https://github.com/nbarikipoulos/json-cipher-value#readme",
   "author": "Nicolas Barriquand <nicolas.barriquand@outlook.fr>",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "jsdoc-to-markdown": "^6.0.1",
     "markdown-toc": "^1.2.0",
+    "mocha": "^8.1.1",
     "standard": "*"
   },
   "repository": {
