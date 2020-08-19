@@ -6,7 +6,7 @@ const fs = require('fs')
 const rimraf = require('rimraf')
 const rewire = require('rewire')
 
-const { CryptData, CryptObject } = require('../lib/cryptObjects')
+const { CipherData, CipherObject } = require('../lib/cipherObjects')
 const tr = require('../lib/tr')
 const factory = require('../index')
 
@@ -111,13 +111,13 @@ describe('Cipher Objects', () => {
   describe('Cipher Data Object', () => {
     describe('Instantiate Cipher Data object', () => {
       it('should not throw', () => {
-        assert.doesNotThrow(() => new CryptData(secret))
+        assert.doesNotThrow(() => new CipherData(secret))
       })
     })
     describe('Default settings', () => {
       let cipherd
 
-      before(() => { cipherd = new CryptData(secret) })
+      before(() => { cipherd = new CipherData(secret) })
 
       DEFAULT_CFGS.forEach(setting => {
         it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
@@ -129,7 +129,7 @@ describe('Cipher Objects', () => {
     describe('Ciphering data', () => {
       let cipherd
 
-      before(() => { cipherd = new CryptData(secret) })
+      before(() => { cipherd = new CipherData(secret) })
 
       describe('Basic', () => {
         it('Data is ciphered', () => {
@@ -150,10 +150,10 @@ describe('Cipher Objects', () => {
       describe('Basic', () => {
         it('Wrong secret does not produce expected result', () => {
           const value = 'abcd'
-          const cipherd = new CryptData(secret)
+          const cipherd = new CipherData(secret)
           const ciphertext = cipherd.encryptd(value)
 
-          const cipherd1 = new CryptData(secret1)
+          const cipherd1 = new CipherData(secret1)
           const result = cipherd1.decryptd(ciphertext)
 
           assert.notStrictEqual(value, result)
@@ -173,7 +173,7 @@ describe('Cipher Objects', () => {
         ]
         before(() => {
           // cipher values
-          const cipherd = new CryptData(secret)
+          const cipherd = new CipherData(secret)
           values.forEach(value => {
             value.ciphertext = cipherd.encryptd(value.value)
           })
@@ -181,7 +181,7 @@ describe('Cipher Objects', () => {
 
         values.forEach(value => {
           it(`Desciphering ${value.desc} (expected type: ${value.type})`, () => {
-            const cipherd = new CryptData(secret)
+            const cipherd = new CipherData(secret)
             assert.strictEqual(value.value, cipherd.decryptd(value.ciphertext))
           })
         })
@@ -191,13 +191,13 @@ describe('Cipher Objects', () => {
   describe('Cipher Object', () => {
     describe('Instantiate Cipher Object object', () => {
       it('Should not throw', () => {
-        assert.doesNotThrow(() => new CryptObject(secret))
+        assert.doesNotThrow(() => new CipherObject(secret))
       })
     })
     describe('Default settings', () => {
       let cipher
 
-      before(() => { cipher = new CryptObject(secret) })
+      before(() => { cipher = new CipherObject(secret) })
 
       DEFAULT_CFGS.forEach(setting => {
         it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
@@ -209,7 +209,7 @@ describe('Cipher Objects', () => {
     describe('Ciphering data, object or array', () => {
       let cipher
 
-      before(() => { cipher = new CryptObject(secret) })
+      before(() => { cipher = new CipherObject(secret) })
 
       it('Primitive type is ciphered', () => {
         const value = 'abcd'
@@ -231,7 +231,7 @@ describe('Cipher Objects', () => {
     describe('Unciphering data, object or array', () => {
       let cipher
 
-      before(() => { cipher = new CryptObject(secret) })
+      before(() => { cipher = new CipherObject(secret) })
 
       it('Primitive type is unciphered', () => {
         const value = 'abcd'
@@ -267,7 +267,7 @@ describe('Module facing factory', () => {
   })
   it('Return a cipher objet', () => {
     const cipherObject = factory(secret)
-    assert(cipherObject instanceof CryptData)
+    assert(cipherObject instanceof CipherData)
   })
   it('Should use default config if no user\'s settings', () => {
     const cipherObject = factory(secret)

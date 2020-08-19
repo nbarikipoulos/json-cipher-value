@@ -5,7 +5,6 @@
 const util = require('util')
 const stream = require('stream')
 
-// const through2 = require('through2')
 const vfs = require('vinyl-fs')
 
 const factory = require('../index')
@@ -30,7 +29,7 @@ module.exports = yargs => yargs
   )
   .command(
     'decipher <file> <secret>',
-    'Decipher crypted json files',
+    'Decipher json files',
     yargs => addOptions(
       yargs,
       'decipher',
@@ -60,13 +59,13 @@ const perform = async (action, argv) => {
     ? argv.d
     : file => file.base
 
-  const cryptObject = factory(secret, options)
+  const cipherObject = factory(secret, options)
 
   const cipher = new stream.Transform({ objectMode: true })
   cipher._transform = (file, enc, cb) => {
     try {
       const json = JSON.parse(file.contents)
-      const data = cryptObject[fname](json)
+      const data = cipherObject[fname](json)
       file.contents = Buffer.from(JSON.stringify(data, null, 2))
       cb(null, file)
     } catch (e) {

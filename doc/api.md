@@ -1,189 +1,181 @@
 # json-cipher-value API Reference
 
-This module is a simple encrypting and decrypting module
-based on the build-in [crypto](https://nodejs.org/api/crypto.html) node module. It performs
-**recursive** encrypting of object values remaining their types.
+This module is a simple (de)ciphering module based on the build-in
+[crypto](https://nodejs.org/api/crypto.html) node module. It performs
+**recursive** (de)ciphering of the values of an object retaining their types.
 
 It is mainly based on the [crypto.createcipheriv](https://nodejs.org/api/crypto.html#crypto_crypto_createcipheriv_algorithm_key_iv_options)
 function and corrolary to the [crypto.createdecipheriv](https://nodejs.org/api/crypto.html#crypto_crypto_createdecipheriv_algorithm_key_iv_options)
 one using a randomly generated initalization vector.
 
 The entry point is the [cipher object factory](module:json-cipher-value~factory) that creates
-a (un)ciphering object.
+a (de)ciphering object.
 
-Note default settings are performing an aes-256-crt ciphering.
+Note default settings use aes-256-crt ciphering.
 
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information.  
 **Version**: 1.2.0  
 <a name="exp_module_json-cipher-value--factory"></a>
 
-### factory(secret, [options]) : [<code>CryptObject</code>](#module_cryptObjects..CryptObject) ⏏
-Factory that creates a (un)ciphering object.
+### factory(secret, [options]) : [<code>CipherObject</code>](#module_cipherObjects..CipherObject) ⏏
+Factory that creates a (de)ciphering object.
 
 **Kind**: Exported function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| secret | <code>string</code> | The secret key or pawssord that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
+| secret | <code>string</code> | The secret key or pawssord that will be used to create the  key for (de)ciphering step. |
+| [options] | [<code>Options</code>](#module_cipherObjects..Options) | (De)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
 
 **Example**  
 ```js
-const createCryptObject = require('json-cipher-value')
+const createCipherObject = require('json-cipher-value')
 
 const secret = 'My secret password'
 let object = {...} // Object to cipher
 
-let cryptObject = createCryptObject(secret)
+let cipherObject = createCipherObject(secret)
 
-let encryptedObject = cryptObject.encrypt(object)
+let cipheredObject = cipherObject.encrypt(object)
 
-let decryptedObject = cryptObject.decrypt(encryptedObject)
+let decipheredObject = cipherObject.decrypt(cipheredObject)
 ```
 
 Internal module objects of interest.
 
 
-* [cryptObjects](#module_cryptObjects)
-    * [~CryptData](#module_cryptObjects..CryptData)
-        * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
-        * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-        * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-    * [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
-        * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
-        * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
-        * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-        * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
+* [cipherObjects](#module_cipherObjects)
+    * [~CipherData](#module_cipherObjects..CipherData)
+        * [new CipherData(secret, [options])](#new_module_cipherObjects..CipherData_new)
+        * [.encryptd(value)](#module_cipherObjects..CipherData+encryptd) : <code>string</code>
+        * [.decryptd(value)](#module_cipherObjects..CipherData+decryptd) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
+    * [~CipherObject](#module_cipherObjects..CipherObject) ⇐ [<code>CipherData</code>](#module_cipherObjects..CipherData)
+        * [.encrypt(object)](#module_cipherObjects..CipherObject+encrypt) : <code>Object</code>
+        * [.decrypt(object)](#module_cipherObjects..CipherObject+decrypt) : <code>Object</code>
+        * [.encryptd(value)](#module_cipherObjects..CipherData+encryptd) : <code>string</code>
+        * [.decryptd(value)](#module_cipherObjects..CipherData+decryptd) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
     * _Typedefs_
-        * [~Options](#module_cryptObjects..Options) : <code>Object</code>
+        * [~Options](#module_cipherObjects..Options) : <code>Object</code>
 
-<a name="module_cryptObjects..CryptData"></a>
+<a name="module_cipherObjects..CipherData"></a>
 
-### cryptObjects~CryptData
-Intermediate object that handles single data (un)ciphering.
+### cipherObjects~CipherData
+Intermediate object that handles (de)ciphering of primitive type.
 
-**Kind**: inner class of [<code>cryptObjects</code>](#module_cryptObjects)  
+**Kind**: inner class of [<code>cipherObjects</code>](#module_cipherObjects)  
 
-* [~CryptData](#module_cryptObjects..CryptData)
-    * [new CryptData(secret, [options])](#new_module_cryptObjects..CryptData_new)
-    * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-    * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
+* [~CipherData](#module_cipherObjects..CipherData)
+    * [new CipherData(secret, [options])](#new_module_cipherObjects..CipherData_new)
+    * [.encryptd(value)](#module_cipherObjects..CipherData+encryptd) : <code>string</code>
+    * [.decryptd(value)](#module_cipherObjects..CipherData+decryptd) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
 
-<a name="new_module_cryptObjects..CryptData_new"></a>
+<a name="new_module_cipherObjects..CipherData_new"></a>
 
-#### new CryptData(secret, [options])
-Create a new CryptData object using specifed options.
+#### new CipherData(secret, [options])
+Create a new CipherData object.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| secret | <code>string</code> | The secret key or password that will be used to create the  key for (un)ciphering step. |
-| [options] | [<code>Options</code>](#module_cryptObjects..Options) | (Un)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
+| secret | <code>string</code> | The secret key or password that will be used to create the  key for (de)ciphering step. |
+| [options] | [<code>Options</code>](#module_cipherObjects..Options) | (De)Ciphering Settings.  Note Use of default settings performs an aes-256-crt ciphering. |
 
-<a name="module_cryptObjects..CryptData+encryptd"></a>
+<a name="module_cipherObjects..CipherData+encryptd"></a>
 
-#### cryptData.encryptd(data) : <code>string</code>
-Cipher a given data.
+#### cipherData.encryptd(value) : <code>string</code>
+Cipher a primitive type value.
 
-For each call, an iv vector will be randomly generated.
+For each call, an iv vector is randomly generated.
 
-Note retained type are integer, boolean, or string. All other kind of values
+Note the retained type are number, boolean, or string. All other kind of values
 will be treated as string.
 
-**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
+**Kind**: instance method of [<code>CipherData</code>](#module_cipherObjects..CipherData)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> \| <code>\*</code> | Data to cipher. |
+| value | <code>string</code> \| <code>number</code> \| <code>boolean</code> \| <code>\*</code> | value to cipher. |
 
-<a name="module_cryptObjects..CryptData+decryptd"></a>
+<a name="module_cipherObjects..CipherData+decryptd"></a>
 
-#### cryptData.decryptd(data) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-Uncipher data.
+#### cipherData.decryptd(value) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
+Uncipher value.
 
-For this step, note the CryptData object **must be initialized with the same options as for the ciphering** step.
-
-**Kind**: instance method of [<code>CryptData</code>](#module_cryptObjects..CryptData)  
+**Kind**: instance method of [<code>CipherData</code>](#module_cipherObjects..CipherData)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>string</code> | Data to uncipher. |
+| value | <code>string</code> | value to uncipher. |
 
-<a name="module_cryptObjects..CryptObject"></a>
+<a name="module_cipherObjects..CipherObject"></a>
 
-### cryptObjects~CryptObject ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
-Object in charge to (un)cipher js object values.
+### cipherObjects~CipherObject ⇐ [<code>CipherData</code>](#module_cipherObjects..CipherData)
+Object in charge to (de)cipher values of object.
 
-**Kind**: inner class of [<code>cryptObjects</code>](#module_cryptObjects)  
-**Extends**: [<code>CryptData</code>](#module_cryptObjects..CryptData)  
+**Kind**: inner class of [<code>cipherObjects</code>](#module_cipherObjects)  
+**Extends**: [<code>CipherData</code>](#module_cipherObjects..CipherData)  
 
-* [~CryptObject](#module_cryptObjects..CryptObject) ⇐ [<code>CryptData</code>](#module_cryptObjects..CryptData)
-    * [.encrypt(object)](#module_cryptObjects..CryptObject+encrypt) : <code>Object</code>
-    * [.decrypt(object)](#module_cryptObjects..CryptObject+decrypt) : <code>Object</code>
-    * [.encryptd(data)](#module_cryptObjects..CryptData+encryptd) : <code>string</code>
-    * [.decryptd(data)](#module_cryptObjects..CryptData+decryptd) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
+* [~CipherObject](#module_cipherObjects..CipherObject) ⇐ [<code>CipherData</code>](#module_cipherObjects..CipherData)
+    * [.encrypt(object)](#module_cipherObjects..CipherObject+encrypt) : <code>Object</code>
+    * [.decrypt(object)](#module_cipherObjects..CipherObject+decrypt) : <code>Object</code>
+    * [.encryptd(value)](#module_cipherObjects..CipherData+encryptd) : <code>string</code>
+    * [.decryptd(value)](#module_cipherObjects..CipherData+decryptd) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
 
-<a name="module_cryptObjects..CryptObject+encrypt"></a>
+<a name="module_cipherObjects..CipherObject+encrypt"></a>
 
-#### cryptObject.encrypt(object) : <code>Object</code>
-Cipher object. It returns a copy of the object containing with its values ciphered.
+#### cipherObject.encrypt(object) : <code>Object</code>
+Cipher object. It returns a clone of the object with ciphered values.
 
-**Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | object | <code>Object</code> | Object to cipher. |
 
-<a name="module_cryptObjects..CryptObject+decrypt"></a>
+<a name="module_cipherObjects..CipherObject+decrypt"></a>
 
-#### cryptObject.decrypt(object) : <code>Object</code>
-Uncipher object. It returns a copy of the ciphered object with unciphered values.
+#### cipherObject.decrypt(object) : <code>Object</code>
+Uncipher object. It returns a clone of the input object applying unciphering of its values.
 
-Note this unciphering step must be done using the same settings as for ciphering.
-
-**Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| object | <code>Object</code> | Ciphered object to uncipher. |
+| object | <code>Object</code> | Object to uncipher. |
 
-<a name="module_cryptObjects..CryptData+encryptd"></a>
+<a name="module_cipherObjects..CipherData+encryptd"></a>
 
-#### cryptObject.encryptd(data) : <code>string</code>
-Cipher a given data.
+#### cipherObject.encryptd(value) : <code>string</code>
+Cipher a primitive type value.
 
-For each call, an iv vector will be randomly generated.
+For each call, an iv vector is randomly generated.
 
-Note retained type are integer, boolean, or string. All other kind of values
+Note the retained type are number, boolean, or string. All other kind of values
 will be treated as string.
 
-**Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>string</code> \| <code>integer</code> \| <code>boolean</code> \| <code>\*</code> | Data to cipher. |
+| value | <code>string</code> \| <code>number</code> \| <code>boolean</code> \| <code>\*</code> | value to cipher. |
 
-<a name="module_cryptObjects..CryptData+decryptd"></a>
+<a name="module_cipherObjects..CipherData+decryptd"></a>
 
-#### cryptObject.decryptd(data) : <code>string</code> \| <code>integer</code> \| <code>boolean</code>
-Uncipher data.
+#### cipherObject.decryptd(value) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
+Uncipher value.
 
-For this step, note the CryptData object **must be initialized with the same options as for the ciphering** step.
-
-**Kind**: instance method of [<code>CryptObject</code>](#module_cryptObjects..CryptObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>string</code> | Data to uncipher. |
+| value | <code>string</code> | value to uncipher. |
 
-<a name="module_cryptObjects..Options"></a>
+<a name="module_cipherObjects..Options"></a>
 
-### cryptObjects~Options : <code>Object</code>
-(Un)cipher object settings.
+### cipherObjects~Options : <code>Object</code>
+Settings for CipherObjects.
 
-Note **next to ciphering process, unciphering must be performed with the same options values**.
-
-**Kind**: inner typedef of [<code>cryptObjects</code>](#module_cryptObjects)  
+**Kind**: inner typedef of [<code>cipherObjects</code>](#module_cipherObjects)  
 **Category**: Typedefs  
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information; in particular about
 available algorithms and theirs iv lengths.  
