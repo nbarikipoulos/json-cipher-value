@@ -15,17 +15,30 @@ Note default settings use aes-256-crt ciphering.
 
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information.  
 **Version**: 1.2.0  
-<a name="exp_module_json-cipher-value--factory"></a>
 
-### factory(secret, [options]) : [<code>CipherObject</code>](#module_cipherObjects..CipherObject) ⏏
+* [json-cipher-value](#module_json-cipher-value)
+    * _static_
+        * [.factory(secret, [options])](#module_json-cipher-value.factory) : [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)⏏
+    * _inner_
+        * [~CipherObject](#module_json-cipher-value..CipherObject)
+            * [new CipherObject(secret, [options])](#new_module_json-cipher-value..CipherObject_new)
+            * [.perform(action, value)](#module_json-cipher-value..CipherObject+perform) : <code>\*</code>
+            * [.cipher(value)](#module_json-cipher-value..CipherObject+cipher) : <code>string</code>
+            * [.decipher(cipheredText)](#module_json-cipher-value..CipherObject+decipher) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
+        * _Typedefs_
+            * [~Options](#module_json-cipher-value..Options) : <code>Object</code>
+
+<a name="module_json-cipher-value.factory"></a>
+
+### json-cipher-value.factory(secret, [options]) : [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)
 Factory that creates a (de)ciphering object.
 
-**Kind**: Exported function  
+**Kind**: static method of [<code>json-cipher-value</code>](#module_json-cipher-value)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | secret | <code>string</code> | The secret key or pawssord that will be used to create the  key for (de)ciphering step. |
-| [options] | [<code>Options</code>](#module_cipherObjects..Options) | (De)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
+| [options] | [<code>Options</code>](#module_json-cipher-value..Options) | (De)Ciphering Settings.  Use of default settings performs an aes-256-crt ciphering. |
 
 **Example**  
 ```js
@@ -40,33 +53,20 @@ let cipheredObject = cipherObject.perform('cipher', object)
 
 let decipheredObject = cipherObject.perform('decipher', object)
 ```
+<a name="module_json-cipher-value..CipherObject"></a>
 
-Internal Functions/Objects of interest.
-
-
-* [cipherObjects](#module_cipherObjects)
-    * [~CipherObject](#module_cipherObjects..CipherObject)
-        * [new CipherObject(secret, [options])](#new_module_cipherObjects..CipherObject_new)
-        * [.perform(action, value)](#module_cipherObjects..CipherObject+perform) : <code>\*</code>
-        * [.cipher(value)](#module_cipherObjects..CipherObject+cipher) : <code>string</code>
-        * [.decipher(cipheredText)](#module_cipherObjects..CipherObject+decipher) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
-    * _Typedefs_
-        * [~Options](#module_cipherObjects..Options) : <code>Object</code>
-
-<a name="module_cipherObjects..CipherObject"></a>
-
-### cipherObjects~CipherObject
+### json-cipher-value~CipherObject
 Object in charge to cipher both supported primitive type or values of object.
 
-**Kind**: inner class of [<code>cipherObjects</code>](#module_cipherObjects)  
+**Kind**: inner class of [<code>json-cipher-value</code>](#module_json-cipher-value)  
 
-* [~CipherObject](#module_cipherObjects..CipherObject)
-    * [new CipherObject(secret, [options])](#new_module_cipherObjects..CipherObject_new)
-    * [.perform(action, value)](#module_cipherObjects..CipherObject+perform) : <code>\*</code>
-    * [.cipher(value)](#module_cipherObjects..CipherObject+cipher) : <code>string</code>
-    * [.decipher(cipheredText)](#module_cipherObjects..CipherObject+decipher) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
+* [~CipherObject](#module_json-cipher-value..CipherObject)
+    * [new CipherObject(secret, [options])](#new_module_json-cipher-value..CipherObject_new)
+    * [.perform(action, value)](#module_json-cipher-value..CipherObject+perform) : <code>\*</code>
+    * [.cipher(value)](#module_json-cipher-value..CipherObject+cipher) : <code>string</code>
+    * [.decipher(cipheredText)](#module_json-cipher-value..CipherObject+decipher) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
 
-<a name="new_module_cipherObjects..CipherObject_new"></a>
+<a name="new_module_json-cipher-value..CipherObject_new"></a>
 
 #### new CipherObject(secret, [options])
 Create a new Cipher object.
@@ -75,9 +75,9 @@ Create a new Cipher object.
 | Param | Type | Description |
 | --- | --- | --- |
 | secret | <code>string</code> | The secret key or password that will be used to create  key for (de)ciphering step. |
-| [options] | [<code>Options</code>](#module_cipherObjects..Options) | (De)Ciphering Settings.  Note Use of default settings performs an aes-256-crt ciphering. |
+| [options] | [<code>Options</code>](#module_json-cipher-value..Options) | (De)Ciphering Settings.  Note Use of default settings performs an aes-256-crt ciphering. |
 
-<a name="module_cipherObjects..CipherObject+perform"></a>
+<a name="module_json-cipher-value..CipherObject+perform"></a>
 
 #### cipherObject.perform(action, value) : <code>\*</code>
 (De)Cipher content.
@@ -89,14 +89,14 @@ Note about Ciphering case:
     _i.e._ for each object properties with a primitive type as value.
   - The return value concatenates the iv vector and the ciphertext.
 
-**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | action | <code>&#x27;cipher&#x27;</code> \| <code>&#x27;decipher&#x27;</code> | action to perform. |
 | value | <code>\*</code> | Input to (de)cipher. |
 
-<a name="module_cipherObjects..CipherObject+cipher"></a>
+<a name="module_json-cipher-value..CipherObject+cipher"></a>
 
 #### cipherObject.cipher(value) : <code>string</code>
 Cipher a primitive type.
@@ -106,29 +106,29 @@ At each call, an iv vector is randomly generated.
 Supported type are **number**, **boolean**, or **string**. All other kind of values
 will be treated as a string.
 
-**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>string</code> \| <code>number</code> \| <code>boolean</code> \| <code>\*</code> | value to cipher. |
 
-<a name="module_cipherObjects..CipherObject+decipher"></a>
+<a name="module_json-cipher-value..CipherObject+decipher"></a>
 
 #### cipherObject.decipher(cipheredText) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
 Uncipher primitive type.
 
-**Kind**: instance method of [<code>CipherObject</code>](#module_cipherObjects..CipherObject)  
+**Kind**: instance method of [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | cipheredText | <code>string</code> | ciphered data |
 
-<a name="module_cipherObjects..Options"></a>
+<a name="module_json-cipher-value..Options"></a>
 
-### cipherObjects~Options : <code>Object</code>
-Settings for CipherObjects.
+### json-cipher-value~Options : <code>Object</code>
+Settings for (de)ciphering.
 
-**Kind**: inner typedef of [<code>cipherObjects</code>](#module_cipherObjects)  
+**Kind**: inner typedef of [<code>json-cipher-value</code>](#module_json-cipher-value)  
 **Category**: Typedefs  
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information; in particular about
 available algorithms and theirs iv lengths.  

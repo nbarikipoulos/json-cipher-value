@@ -6,7 +6,7 @@ const fs = require('fs')
 const rimraf = require('rimraf')
 const rewire = require('rewire')
 
-const CipherObject = require('../lib/cipherObjects')
+const CipherObject = require('../lib/CipherObject')
 const tr = require('../lib/tr')
 const factory = require('../index')
 
