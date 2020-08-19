@@ -11,9 +11,9 @@ Note:
 
 - This module is based on the build-in crypto node module,
 - Default settings perform an aes-256-ctr ciphering,
-- An iv is randomly generated for each value and appended to the result.
+- An iv is randomly generated for each value.
 
-Furthermore, it is provided with a [CLI](#cli) in order to cipher json files.
+Furthermore, it is provided with a [CLI](#cli) in order to simply cipher json files.
 
 ## Table of Contents
 
@@ -51,7 +51,7 @@ npm install json-cipher-value
     }
   }
 
-  const cipheredObject = cipherObject.encrypt(object)
+  const cipheredObject = cipherObject.perform('cipher', object)
   //{
   //  a: '35747569f964d575521a0205b8d21af8eab60b69c30d2fe5',
   //  b: {
@@ -66,14 +66,14 @@ npm install json-cipher-value
   //  }
   //}
 
-  const decipheredObject = cipherObject.decrypt(cipheredObject)
+  const decipheredObject = cipherObject.perform('decipher', cipheredObject)
   // { a: 'a value', b: { a: [ 1, 3.1, '2.2', true, true, false ] } }
 ```
 
 ## CLI
-  This module is provided with a CLI in order to cipher json files:
+  This module is provided with a CLI in order to simply cipher json files:
   - It performs (de)ciphering with the default algorithm used by this package _i.e._ the aes-256-ctr one's,
-  - It optionnally allows modifying ciphered file extension or target folder.
+  - It optionnally allows modifying ciphered file extension (.cjson as default) or target folder.
 
 ```shell
   cipher-json cipher src/data/**/*.json 'My secret password'

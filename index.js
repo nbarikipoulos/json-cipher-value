@@ -4,7 +4,7 @@
  *
  * This module is a simple (de)ciphering module based on the build-in
  * [crypto]{@link https://nodejs.org/api/crypto.html} node module. It performs
- * **recursive** (de)ciphering of the values of an object retaining their types.
+ * **recursive** (de)ciphering of the values of an object remaining their types.
  *
  * It is mainly based on the [crypto.createcipheriv]{@link https://nodejs.org/api/crypto.html#crypto_crypto_createcipheriv_algorithm_key_iv_options}
  * function and corrolary to the [crypto.createdecipheriv]{@link https://nodejs.org/api/crypto.html#crypto_crypto_createdecipheriv_algorithm_key_iv_options}
@@ -22,7 +22,7 @@
 
 'use strict'
 
-const { CipherObject } = require('./lib/cipherObjects')
+const CipherObject = require('./lib/cipherObjects')
 
 /**
  * Factory that creates a (de)ciphering object.
@@ -43,9 +43,9 @@ const { CipherObject } = require('./lib/cipherObjects')
  *
  * let cipherObject = createCipherObject(secret)
  *
- * let cipheredObject = cipherObject.encrypt(object)
+ * let cipheredObject = cipherObject.perform('cipher', object)
  *
- * let decipheredObject = cipherObject.decrypt(cipheredObject)
+ * let decipheredObject = cipherObject.perform('decipher', object)
  */
 const factory = (secret, options) => new CipherObject(secret, options)
 

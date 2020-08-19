@@ -52,12 +52,11 @@ const perform = async (action, argv) => {
   const options = {}
   const secret = argv.secret
 
-  const fname = action === 'cipher' ? 'encrypt' : 'decrypt'
   const ext = action === 'cipher' ? argv.E : '.json'
 
   const tgtFolder = argv.d
     ? argv.d
-    : file => file.base
+    : (file) => file.base
 
   const cipherObject = factory(secret, options)
 
@@ -65,7 +64,7 @@ const perform = async (action, argv) => {
   cipher._transform = (file, enc, cb) => {
     try {
       const json = JSON.parse(file.contents)
-      const data = cipherObject[fname](json)
+      const data = cipherObject.perform(action, json)
       file.contents = Buffer.from(JSON.stringify(data, null, 2))
       cb(null, file)
     } catch (e) {
@@ -97,17 +96,17 @@ const perform = async (action, argv) => {
 // CLI misc.
 // ////////////////////////////////
 
-const addOptions = (yargs, name, ...options) => {
+const addOptions = (yargs, action, ...options) => {
   options.forEach(name => {
     const desc = _ARG_DESC[name]
     yargs.option(desc.key, desc.detail)
   })
 
-  const pre = name === 'cipher' ? '' : 'de'
+  const prefix = action === 'cipher' ? '' : 'de'
 
   yargs
     .positional('file', {
-      describe: `Target file (globs supported for multi files ${pre}ciphering)`,
+      describe: `Target file (globs supported for multi files ${prefix}ciphering)`,
       type: 'string'
     })
     .positional('secret', {
@@ -115,8 +114,8 @@ const addOptions = (yargs, name, ...options) => {
       type: 'string'
     })
     .example(
-      `$0 ${name} src/data/**/*.json  'My secret password'`,
-      `${pre}cipher all json file in src/data`
+      `$0 ${action} src/data/**/*.json  'My secret password'`,
+      `${prefix}cipher all json file in src/data`
     )
 }
 

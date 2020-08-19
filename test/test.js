@@ -6,7 +6,7 @@ const fs = require('fs')
 const rimraf = require('rimraf')
 const rewire = require('rewire')
 
-const { CipherData, CipherObject } = require('../lib/cipherObjects')
+const CipherObject = require('../lib/cipherObjects')
 const tr = require('../lib/tr')
 const factory = require('../index')
 
@@ -111,13 +111,13 @@ describe('Cipher Objects', () => {
   describe('Cipher Data Object', () => {
     describe('Instantiate Cipher Data object', () => {
       it('should not throw', () => {
-        assert.doesNotThrow(() => new CipherData(secret))
+        assert.doesNotThrow(() => new CipherObject(secret))
       })
     })
     describe('Default settings', () => {
       let cipherd
 
-      before(() => { cipherd = new CipherData(secret) })
+      before(() => { cipherd = new CipherObject(secret) })
 
       DEFAULT_CFGS.forEach(setting => {
         it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
@@ -129,18 +129,18 @@ describe('Cipher Objects', () => {
     describe('Ciphering data', () => {
       let cipherd
 
-      before(() => { cipherd = new CipherData(secret) })
+      before(() => { cipherd = new CipherObject(secret) })
 
       describe('Basic', () => {
         it('Data is ciphered', () => {
           const value = 'abcd'
-          const ciphertext = cipherd.encryptd(value)
+          const ciphertext = cipherd.perform('cipher', value)
           assert.notStrictEqual(value, ciphertext)
         })
         it('Same data ciphered with same cipher does not produce same ciphertext', () => {
           const value = 'abcd'
-          const ciphertext1 = cipherd.encryptd(value)
-          const ciphertext2 = cipherd.encryptd(value)
+          const ciphertext1 = cipherd.perform('cipher', value)
+          const ciphertext2 = cipherd.perform('cipher', value)
           assert.notStrictEqual(ciphertext1, ciphertext2)
         })
       })
@@ -150,17 +150,17 @@ describe('Cipher Objects', () => {
       describe('Basic', () => {
         it('Wrong secret does not produce expected result', () => {
           const value = 'abcd'
-          const cipherd = new CipherData(secret)
-          const ciphertext = cipherd.encryptd(value)
+          const cipherd = new CipherObject(secret)
+          const ciphertext = cipherd.perform('cipher', value)
 
-          const cipherd1 = new CipherData(secret1)
-          const result = cipherd1.decryptd(ciphertext)
+          const cipherd1 = new CipherObject(secret1)
+          const result = cipherd1.perform('decipher', ciphertext)
 
           assert.notStrictEqual(value, result)
         })
       })
 
-      describe('Check unciphering of typed values', () => {
+      describe('Check deciphering of typed values', () => {
         const values = [
           { type: 'string', value: 'aaaaa', desc: 'a string' },
           { type: 'string', value: '10', desc: 'an integer in a string' },
@@ -173,16 +173,16 @@ describe('Cipher Objects', () => {
         ]
         before(() => {
           // cipher values
-          const cipherd = new CipherData(secret)
+          const cipherd = new CipherObject(secret)
           values.forEach(value => {
-            value.ciphertext = cipherd.encryptd(value.value)
+            value.ciphertext = cipherd.perform('cipher', value.value)
           })
         })
 
         values.forEach(value => {
           it(`Desciphering ${value.desc} (expected type: ${value.type})`, () => {
-            const cipherd = new CipherData(secret)
-            assert.strictEqual(value.value, cipherd.decryptd(value.ciphertext))
+            const cipherd = new CipherObject(secret)
+            assert.strictEqual(value.value, cipherd.perform('decipher', value.ciphertext))
           })
         })
       })
@@ -213,42 +213,42 @@ describe('Cipher Objects', () => {
 
       it('Primitive type is ciphered', () => {
         const value = 'abcd'
-        const ciphertext = cipher.encrypt(value)
+        const ciphertext = cipher.perform('cipher', value)
         assert.notDeepStrictEqual(value, ciphertext)
       })
       it('Object is ciphered', () => {
         const object = { a: 1, b: true }
-        const cipheredObject = cipher.encrypt(object)
+        const cipheredObject = cipher.perform('cipher', object)
         assert.notDeepStrictEqual(object, cipheredObject)
       })
       it('Array is ciphered', () => {
         const array = [1, 3, 4, 1]
-        const cipheredObject = cipher.encrypt(array)
+        const cipheredObject = cipher.perform('cipher', array)
         assert.notDeepStrictEqual(array, cipheredObject)
       })
     })
 
-    describe('Unciphering data, object or array', () => {
+    describe('Deciphering data, object or array', () => {
       let cipher
 
       before(() => { cipher = new CipherObject(secret) })
 
-      it('Primitive type is unciphered', () => {
+      it('Primitive type is deciphered', () => {
         const value = 'abcd'
-        const ciphertext = cipher.encrypt(value)
-        const res = cipher.decrypt(ciphertext)
+        const ciphertext = cipher.perform('cipher', value)
+        const res = cipher.perform('decipher', ciphertext)
         assert.deepStrictEqual(res, value)
       })
-      it('Object is unciphered', () => {
+      it('Object is deciphered', () => {
         const object = { a: 1, b: true }
-        const cipheredObject = cipher.encrypt(object)
-        const res = cipher.decrypt(cipheredObject)
+        const cipheredObject = cipher.perform('cipher', object)
+        const res = cipher.perform('decipher', cipheredObject)
         assert.deepStrictEqual(res, object)
       })
-      it('Array is unciphered', () => {
+      it('Array is deciphered', () => {
         const array = [1, 3, 4, 1]
-        const cipheredObject = cipher.encrypt(array)
-        const res = cipher.decrypt(cipheredObject)
+        const cipheredObject = cipher.perform('cipher', array)
+        const res = cipher.perform('decipher', cipheredObject)
         assert.deepStrictEqual(res, array)
       })
     })
@@ -267,7 +267,7 @@ describe('Module facing factory', () => {
   })
   it('Return a cipher objet', () => {
     const cipherObject = factory(secret)
-    assert(cipherObject instanceof CipherData)
+    assert(cipherObject instanceof CipherObject)
   })
   it('Should use default config if no user\'s settings', () => {
     const cipherObject = factory(secret)
@@ -339,7 +339,7 @@ describe('CLI test (files)', () => {
 
     it('Values should have been ciphered', () => {
       const cipherObject = factory(secret)
-      const decipheredResult = tr(resultObject, v => cipherObject.decryptd(v))
+      const decipheredResult = tr(resultObject, v => cipherObject.perform('decipher', v))
       assert.deepStrictEqual(decipheredResult, srcObject)
     })
   })
@@ -354,7 +354,7 @@ describe('CLI test (files)', () => {
     })
 
     it('Should not throw', async () => {
-      await perform('uncipher', {
+      await perform('decipher', {
         file: src,
         secret,
         d: testDir
