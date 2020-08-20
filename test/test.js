@@ -133,20 +133,20 @@ describe('Cipher Object', () => {
   })
 
   describe('(De)Ciphering primitive type', () => {
-    let cipherd
+    let cipher
 
-    before(() => { cipherd = new CipherObject(secret) })
+    before(() => { cipher = new CipherObject(secret) })
 
     describe('Ciphering', () => {
       it('Data is ciphered', () => {
         const value = 'abcd'
-        const ciphertext = cipherd.perform('cipher', value)
+        const ciphertext = cipher.perform('cipher', value)
         assert.notStrictEqual(value, ciphertext)
       })
       it('Same data ciphered with same cipher does not produce same ciphertext', () => {
         const value = 'abcd'
-        const ciphertext1 = cipherd.perform('cipher', value)
-        const ciphertext2 = cipherd.perform('cipher', value)
+        const ciphertext1 = cipher.perform('cipher', value)
+        const ciphertext2 = cipher.perform('cipher', value)
         assert.notStrictEqual(ciphertext1, ciphertext2)
       })
     })
@@ -155,11 +155,11 @@ describe('Cipher Object', () => {
       describe('Basic', () => {
         it('Wrong secret does not produce expected result', () => {
           const value = 'abcd'
-          const cipherd = new CipherObject(secret)
-          const ciphertext = cipherd.perform('cipher', value)
+          const cipher = new CipherObject(secret)
+          const ciphertext = cipher.perform('cipher', value)
 
-          const cipherd1 = new CipherObject(secret1)
-          const result = cipherd1.perform('decipher', ciphertext)
+          const cipher1 = new CipherObject(secret1)
+          const result = cipher1.perform('decipher', ciphertext)
 
           assert.notStrictEqual(value, result)
         })
@@ -177,17 +177,16 @@ describe('Cipher Object', () => {
           { type: 'number', value: 0, desc: '0' }
         ]
         before(() => {
-          // cipher values
-          const cipherd = new CipherObject(secret)
-          values.forEach(value => {
-            value.ciphertext = cipherd.perform('cipher', value.value)
+          const cipher = new CipherObject(secret)
+          values.forEach(value => { // cipher values
+            value.ciphertext = cipher.perform('cipher', value.value)
           })
         })
 
         values.forEach(value => {
           it(`Desciphering ${value.desc} (expected type: ${value.type})`, () => {
-            const cipherd = new CipherObject(secret)
-            assert.strictEqual(value.value, cipherd.perform('decipher', value.ciphertext))
+            const cipher = new CipherObject(secret)
+            assert.strictEqual(value.value, cipher.perform('decipher', value.ciphertext))
           })
         })
       })
