@@ -8,7 +8,6 @@ const stream = require('stream')
 const vfs = require('vinyl-fs')
 
 const factory = require('../index')
-const { Stream } = require('stream')
 
 // ////////////////////////////////
 // ////////////////////////////////
@@ -75,7 +74,7 @@ const perform = async (action, argv) => {
   }
 
   const renameFile = (ext) => {
-    const transform = new Stream.Transform({ objectMode: true })
+    const transform = new stream.Transform({ objectMode: true })
     transform._transform = (file, enc, cb) => {
       file.extname = ext
       cb(null, file)
