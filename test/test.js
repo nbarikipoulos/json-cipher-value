@@ -101,52 +101,57 @@ describe('Walker and apply fn to values object', () => {
 })
 
 // ///////////////////////////////////////
-// Cipher Objects
+// Cipher Object
 // ///////////////////////////////////////
 
-describe('Cipher Objects', () => {
+describe('Cipher Object', () => {
   const secret = 'My dummy secret password'
   const secret1 = 'My other dummy secret'
 
-  describe('Cipher Data Object', () => {
-    describe('Instantiate Cipher Data object', () => {
-      it('should not throw', () => {
-        assert.doesNotThrow(() => new CipherObject(secret))
-      })
+  describe('Instantiate Cipher object', () => {
+    it('should not throw', () => {
+      assert.doesNotThrow(() => new CipherObject(secret))
     })
-    describe('Default settings', () => {
-      let cipherd
+  })
 
-      before(() => { cipherd = new CipherObject(secret) })
-
-      DEFAULT_CFGS.forEach(setting => {
-        it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
-          assert.strictEqual(cipherd[setting.prop], setting.value)
-        })
+  describe('Settings', () => {
+    DEFAULT_CFGS.forEach(setting => {
+      const cipherObject = new CipherObject(secret)
+      it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
+        assert.strictEqual(cipherObject[setting.prop], setting.value)
       })
     })
 
-    describe('Ciphering data', () => {
-      let cipherd
+    it('Should apply user\'s settings', () => {
+      const myConfig = { algo: 'my-great-algo', ivLength: 32 }
+      const cipherObject = new CipherObject(secret, myConfig)
+      assert.deepStrictEqual(
+        { algo: cipherObject._algo, ivLength: cipherObject._ivLength },
+        { algo: myConfig.algo, ivLength: myConfig.ivLength }
+      )
+    })
+  })
 
-      before(() => { cipherd = new CipherObject(secret) })
+  describe('(De)Ciphering primitive type', () => {
+    let cipherd
 
-      describe('Basic', () => {
-        it('Data is ciphered', () => {
-          const value = 'abcd'
-          const ciphertext = cipherd.perform('cipher', value)
-          assert.notStrictEqual(value, ciphertext)
-        })
-        it('Same data ciphered with same cipher does not produce same ciphertext', () => {
-          const value = 'abcd'
-          const ciphertext1 = cipherd.perform('cipher', value)
-          const ciphertext2 = cipherd.perform('cipher', value)
-          assert.notStrictEqual(ciphertext1, ciphertext2)
-        })
+    before(() => { cipherd = new CipherObject(secret) })
+
+    describe('Ciphering', () => {
+      it('Data is ciphered', () => {
+        const value = 'abcd'
+        const ciphertext = cipherd.perform('cipher', value)
+        assert.notStrictEqual(value, ciphertext)
+      })
+      it('Same data ciphered with same cipher does not produce same ciphertext', () => {
+        const value = 'abcd'
+        const ciphertext1 = cipherd.perform('cipher', value)
+        const ciphertext2 = cipherd.perform('cipher', value)
+        assert.notStrictEqual(ciphertext1, ciphertext2)
       })
     })
 
-    describe('Deciphering step', () => {
+    describe('Deciphering', () => {
       describe('Basic', () => {
         it('Wrong secret does not produce expected result', () => {
           const value = 'abcd'
@@ -188,34 +193,13 @@ describe('Cipher Objects', () => {
       })
     })
   })
-  describe('Cipher Object', () => {
-    describe('Instantiate Cipher Object object', () => {
-      it('Should not throw', () => {
-        assert.doesNotThrow(() => new CipherObject(secret))
-      })
-    })
-    describe('Default settings', () => {
+
+  describe('(De)Ciphering object/array', () => {
+    describe('Ciphering object or array', () => {
       let cipher
 
       before(() => { cipher = new CipherObject(secret) })
 
-      DEFAULT_CFGS.forEach(setting => {
-        it(`Default setting for '${setting.desc}' should be ${setting.value}`, () => {
-          assert.strictEqual(cipher[setting.prop], setting.value)
-        })
-      })
-    })
-
-    describe('Ciphering data, object or array', () => {
-      let cipher
-
-      before(() => { cipher = new CipherObject(secret) })
-
-      it('Primitive type is ciphered', () => {
-        const value = 'abcd'
-        const ciphertext = cipher.perform('cipher', value)
-        assert.notDeepStrictEqual(value, ciphertext)
-      })
       it('Object is ciphered', () => {
         const object = { a: 1, b: true }
         const cipheredObject = cipher.perform('cipher', object)
@@ -228,17 +212,11 @@ describe('Cipher Objects', () => {
       })
     })
 
-    describe('Deciphering data, object or array', () => {
+    describe('Deciphering object/array', () => {
       let cipher
 
       before(() => { cipher = new CipherObject(secret) })
 
-      it('Primitive type is deciphered', () => {
-        const value = 'abcd'
-        const ciphertext = cipher.perform('cipher', value)
-        const res = cipher.perform('decipher', ciphertext)
-        assert.deepStrictEqual(res, value)
-      })
       it('Object is deciphered', () => {
         const object = { a: 1, b: true }
         const cipheredObject = cipher.perform('cipher', object)
@@ -282,19 +260,11 @@ describe('Module facing factory', () => {
     )
   })
   it('Should apply user\'s settings', () => {
-    const config = {
-      algo: 'my-great-algo',
-      ivLength: 32
-    }
-    const cipherObject = factory(secret, config)
+    const myConfig = { algo: 'my-great-algo', ivLength: 32 }
+    const cipherObject = factory(secret, myConfig)
     assert.deepStrictEqual(
-      {
-        algo: cipherObject._algo,
-        ivLength: cipherObject._ivLength
-      }, {
-        algo: config.algo,
-        ivLength: config.ivLength
-      }
+      { algo: cipherObject._algo, ivLength: cipherObject._ivLength },
+      { algo: myConfig.algo, ivLength: myConfig.ivLength }
     )
   })
 })
