@@ -128,15 +128,6 @@ const _ARG_DESC = {
       describe: 'Target folder (use source folder if not set).'
     }
   },
-  typed: {
-    key: 'T',
-    detail: {
-      alias: 'typed',
-      type: 'boolean',
-      default: true,
-      describe: 'Retains types of value'
-    }
-  },
   extension: {
     key: 'E',
     detail: {
