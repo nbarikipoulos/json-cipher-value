@@ -2,7 +2,7 @@
 
 'use strict'
 
-const util = require('util')
+const { promisify } = require('util')
 const stream = require('stream')
 
 const vfs = require('vinyl-fs')
@@ -82,7 +82,7 @@ const perform = async (action, argv) => {
     return transform
   }
 
-  const pipeline = util.promisify(stream.pipeline)
+  const pipeline = promisify(stream.pipeline)
   await pipeline(
     vfs.src(argv.file),
     cipher,
