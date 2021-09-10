@@ -1,6 +1,6 @@
 {
   "name": "json-cipher-value",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "Recursively (de)ciphering values of object retaining their types.",
   "bin": {
     "cipher-json": "./bin/cli.js"
