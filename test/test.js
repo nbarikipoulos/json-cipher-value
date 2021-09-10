@@ -3,6 +3,7 @@
 
 const assert = require('assert')
 const fs = require('fs')
+const path = require('path')
 const rimraf = require('rimraf')
 const rewire = require('rewire')
 
@@ -275,7 +276,7 @@ describe('Module facing factory', () => {
 describe('CLI test (files)', () => {
   const perform = rewire('../cli/commands').__get__('perform')
   const secret = 'My secret password'
-  const testDir = `${process.cwd()}/test_dir`
+  const testDir = path.resolve(process.cwd(), 'test_dir')
 
   before(() => {
     rimraf.sync(testDir)
@@ -285,7 +286,7 @@ describe('CLI test (files)', () => {
     let src, srcObject, tgt, resultObject
 
     before(() => {
-      src = `${__dirname}/ateam.json`
+      src = path.resolve(__dirname, 'ateam.json')
       srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
       tgt = `${testDir}/ateam.cjson`
     })
@@ -317,7 +318,7 @@ describe('CLI test (files)', () => {
     let src, srcObject, tgt, resultObject
 
     before(() => {
-      src = `${__dirname}/ateam.cjson`
+      src = path.resolve(__dirname, 'ateam.cjson')
       srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
       tgt = `${testDir}/ateam.json`
     })
@@ -339,7 +340,8 @@ describe('CLI test (files)', () => {
     })
 
     it('Values should have been deciphered', () => {
-      const refObject = JSON.parse(fs.readFileSync(`${__dirname}/ateam.json`, 'utf8'))
+      const file = path.resolve(__dirname, 'ateam.json')
+      const refObject = JSON.parse(fs.readFileSync(file, 'utf8'))
       assert.deepStrictEqual(resultObject, refObject)
     })
   })
