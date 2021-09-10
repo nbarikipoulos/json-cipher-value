@@ -93,7 +93,7 @@ Typing:
 npm run test
 ```
 
-will launch a set of unity and functional tests as well as checking the compliancy of code with standardjs.
+will launch a set of unit and functional tests as well as checking the compliancy of code with standardjs.
 
 ## Credits
 
