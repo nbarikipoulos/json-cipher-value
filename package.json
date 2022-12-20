@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "gendoc": "markdown-toc -i README.md &&cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md",
-    "test": "standard && mocha"
+    "lint": "standard",
+    "test": "npm run lint && mocha"
   },
   "homepage": "https://github.com/nbarikipoulos/json-cipher-value#readme",
   "author": "Nicolas Barriquand <nicolas.barriquand@outlook.fr>",
