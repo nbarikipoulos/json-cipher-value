@@ -1,5 +1,3 @@
-/*! Copyright (c) 2019-2020 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
-
 /**
  *
  * This module is a simple (de)ciphering module based on the build-in

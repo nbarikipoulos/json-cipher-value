@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-/*! Copyright (c) 2020 Nicolas Barriquand <nicolas.barriquand@outlook.fr>. MIT licensed. */
-
 const yargs = require('yargs')
 
 yargs
