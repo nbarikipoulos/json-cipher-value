@@ -17,10 +17,7 @@
  * @version 2.0.3
  * @see {@link https://nodejs.org/api/crypto.html} for further information.
  */
-
-'use strict'
-
-const CipherObject = require('./lib/CipherObject')
+import { CipherObject } from '#lib'
 
 /**
  * Settings for (de)ciphering.
@@ -46,23 +43,20 @@ const CipherObject = require('./lib/CipherObject')
  * @memberof module:json-cipher-value
  * @type {module:json-cipher-value~CipherObject}
  * @example
- * const createCipherObject = require('json-cipher-value')
+ * import createCipherObject form 'json-cipher-value'
  *
  * const secret = 'My secret password'
- * let object = {...} // Object to cipher
+ * const object = {...} // Object to cipher
  *
- * let cipherObject = createCipherObject(secret)
+ * const cipherObject = createCipherObject(secret)
  *
- * let cipheredObject = cipherObject.perform('cipher', object)
+ * const cipheredObject = cipherObject.perform('cipher', object)
  *
- * let decipheredObject = cipherObject.perform('decipher', object)
+ * const decipheredObject = cipherObject.perform('decipher', cipheredObject)
  */
 const factory = (secret, options) => new CipherObject(secret, options)
 
-// //////////////////////
-// //////////////////////
-// Public API
-// //////////////////////
-// //////////////////////
-
-module.exports = factory
+export {
+  factory as default,
+  CipherObject
+}

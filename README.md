@@ -37,7 +37,7 @@ npm install json-cipher-value
 ## Usage
 
 ```js
-const createCipherObject = require('json-cipher-value')
+import createCipherObject from 'json-cipher-value'
 
 const secret = 'My secret password'
 const cipherObject = createCipherObject(secret)

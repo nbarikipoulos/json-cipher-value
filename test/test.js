@@ -1,15 +1,14 @@
 /* eslint-env mocha */
-'use strict'
+import assert from 'node:assert'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { cwd } from 'node:process'
+import { URL, fileURLToPath, pathToFileURL } from 'node:url'
+import rimraf from 'rimraf'
 
-const assert = require('assert')
-const fs = require('fs')
-const path = require('path')
-const rimraf = require('rimraf')
-const rewire = require('rewire')
-
-const CipherObject = require('../lib/CipherObject')
-const tr = require('../lib/tr')
-const factory = require('../index')
+import { CipherObject, tr } from '#lib'
+import factory from '../index.js'
+import { perform } from '../cli/commands.js'
 
 const DEFAULT_ALGO = 'aes-256-ctr'
 const DEFAULT_IV_LENGTH = 16
@@ -274,31 +273,37 @@ describe('Module facing factory', () => {
 // ///////////////////////////////////////
 
 describe('CLI test (files)', () => {
-  const perform = rewire('../cli/commands').__get__('perform')
-  const secret = 'My secret password'
-  const testDir = path.resolve(process.cwd(), 'test_dir')
+  const __dirname = new URL('.', import.meta.url)
 
+  const secret = 'My secret password'
+  const testDir = new URL(
+    'test_dir/',
+    pathToFileURL(join(cwd(), '/'))
+  )
+  const testDirPath = fileURLToPath(testDir)
   before(() => {
-    rimraf.sync(testDir)
+    rimraf.sync(testDirPath)
   })
 
   describe('Cipher file', () => {
-    let src, srcObject, tgt, resultObject
+    let src, srcObject, resultObject
 
     before(() => {
-      src = path.resolve(__dirname, 'ateam.json')
-      srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
-      tgt = `${testDir}/ateam.cjson`
+      src = new URL('./ateam.json', __dirname)
+      srcObject = JSON.parse(readFileSync(src))
     })
 
     it('Should not throw', async () => {
       await perform('cipher', {
-        file: src,
+        file: fileURLToPath(src),
         secret,
         E: '.cjson',
-        d: testDir
+        d: testDirPath
       })
-      resultObject = JSON.parse(fs.readFileSync(tgt, 'utf8'))
+      resultObject = JSON.parse(
+        readFileSync(
+          new URL('./ateam.cjson', testDir)
+        ))
     })
 
     it('JSON structure should have been retained', () => {
@@ -315,22 +320,23 @@ describe('CLI test (files)', () => {
   })
 
   describe('Decipher file', () => {
-    let src, srcObject, tgt, resultObject
+    let src, srcObject, resultObject
 
     before(() => {
-      src = path.resolve(__dirname, 'ateam.cjson')
-      srcObject = JSON.parse(fs.readFileSync(src, 'utf8'))
-      tgt = `${testDir}/ateam.json`
+      src = new URL('./ateam.cjson', __dirname)
+      srcObject = JSON.parse(readFileSync(src))
     })
 
     it('Should not throw', async () => {
       await perform('decipher', {
-        file: src,
+        file: fileURLToPath(src),
         secret,
-        d: testDir
+        d: testDirPath
       })
 
-      resultObject = JSON.parse(fs.readFileSync(tgt, 'utf8'))
+      resultObject = JSON.parse(readFileSync(
+        new URL('./ateam.json', testDir)
+      ))
     })
 
     it('JSON structure should have been retained', () => {
@@ -340,8 +346,9 @@ describe('CLI test (files)', () => {
     })
 
     it('Values should have been deciphered', () => {
-      const file = path.resolve(__dirname, 'ateam.json')
-      const refObject = JSON.parse(fs.readFileSync(file, 'utf8'))
+      const refObject = JSON.parse(readFileSync(
+        new URL('./ateam.json', __dirname)
+      ))
       assert.deepStrictEqual(resultObject, refObject)
     })
   })

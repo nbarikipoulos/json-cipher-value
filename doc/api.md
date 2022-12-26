@@ -42,16 +42,16 @@ Factory that creates a (de)ciphering object.
 
 **Example**  
 ```js
-const createCipherObject = require('json-cipher-value')
+import createCipherObject form 'json-cipher-value'
 
 const secret = 'My secret password'
-let object = {...} // Object to cipher
+const object = {...} // Object to cipher
 
-let cipherObject = createCipherObject(secret)
+const cipherObject = createCipherObject(secret)
 
-let cipheredObject = cipherObject.perform('cipher', object)
+const cipheredObject = cipherObject.perform('cipher', object)
 
-let decipheredObject = cipherObject.perform('decipher', object)
+const decipheredObject = cipherObject.perform('decipher', cipheredObject)
 ```
 <a name="module_json-cipher-value..CipherObject"></a>
 
@@ -77,6 +77,18 @@ Create a new Cipher object.
 | secret | <code>string</code> | The secret key or password that will be used to create  key for (de)ciphering step. |
 | [options] | [<code>Options</code>](#module_json-cipher-value..Options) | (De)Ciphering Settings.  Note Use of default settings performs an aes-256-crt ciphering. |
 
+**Example**  
+```js
+import { CipherObject } from 'json-cipher-value'
+
+const secret = 'My secret password'
+
+const obj = {...} // Object to cipher
+
+const cipherObject = new CipherObject(secret)
+const cipheredObject = cipherObject.perform('cipher', object)
+const decipheredObject = cipherObject.perform('decipher', cipheredObject)
+```
 <a name="module_json-cipher-value..CipherObject+perform"></a>
 
 #### cipherObject.perform(action, value) : <code>\*</code>
@@ -112,10 +124,21 @@ will be treated as a string.
 | --- | --- | --- |
 | value | <code>string</code> \| <code>number</code> \| <code>boolean</code> \| <code>\*</code> | value to cipher. |
 
+**Example**  
+```js
+import { CipherObject } from 'json-cipher-value'
+
+const secret = 'My secret password'
+
+const value = 'my value' // Value to cipher
+
+const cipherObject = new CipherObject(secret)
+const cipheredValue = cipherObject.cipher(value)
+```
 <a name="module_json-cipher-value..CipherObject+decipher"></a>
 
 #### cipherObject.decipher(cipheredText) : <code>string</code> \| <code>number</code> \| <code>boolean</code>
-Uncipher primitive type.
+Decipher primitive type.
 
 **Kind**: instance method of [<code>CipherObject</code>](#module_json-cipher-value..CipherObject)  
 
@@ -123,6 +146,17 @@ Uncipher primitive type.
 | --- | --- | --- |
 | cipheredText | <code>string</code> | ciphered data |
 
+**Example**  
+```js
+import { CipherObject } from 'json-cipher-value'
+
+const secret = 'My secret password'
+
+const cipheredText = ...
+
+const cipherObject = new CipherObject(secret)
+const decipheredValue = cipherObject.decipher(cipheredText)
+```
 <a name="module_json-cipher-value..Options"></a>
 
 ### json-cipher-value~Options : <code>Object</code>

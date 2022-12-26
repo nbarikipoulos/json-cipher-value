@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 
-const yargs = require('yargs')
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
 
-yargs
+import commands from '../cli/commands.js'
+
+const yarg = yargs(hideBin(process.argv))
+
+yarg
   .usage('Usage: $0 <command> --help for detailed help')
   .demandCommand(1, 'Use at least one command')
   .locale('en')
 
 // add (de)cipher commands
-require('../cli/commands')(yargs)
+commands(yarg)
 
 // At last, common options
-yargs
+yarg
   .version()
   .alias('h', 'help')
 
@@ -21,7 +26,7 @@ yargs
 // ////////////////////////////////
 // ////////////////////////////////
 
-yargs
-  .wrap(yargs.terminalWidth())
+yarg
+  .wrap(yarg.terminalWidth())
   .strict()
   .parse()

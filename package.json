@@ -1,11 +1,15 @@
 {
   "name": "json-cipher-value",
   "version": "2.0.3",
+  "type": "module",
   "description": "Recursively (de)ciphering values of object retaining their types.",
   "bin": {
     "cipher-json": "./bin/cli.js"
   },
-  "main": "index.js",
+  "exports": "./index.js",
+  "imports" : {
+    "#lib" : "./lib/index.js"
+  },
   "scripts": {
     "gendoc": "markdown-toc -i README.md &&cd doc/jsdoc2md && jsdoc2md -t api.hbs > ../api.md",
     "lint": "standard",
@@ -23,17 +27,17 @@
   ],
   "dependencies": {
     "vinyl-fs": "^3.0.3",
-    "yargs": "^17.1.1"
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
     "jsdoc-to-markdown": "^8.0.0",
     "markdown-toc": "^1.2.0",
     "mocha": "^10.2.0",
-    "rewire": "^6.0.0",
     "rimraf": "^3.0.2",
     "standard": "17.0.0"
   },
   "files": [
+    "index.js",
     "/lib",
     "/cli",
     "/doc/api.md"

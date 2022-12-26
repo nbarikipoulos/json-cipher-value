@@ -1,11 +1,9 @@
-'use strict'
+import { promisify } from 'node:util'
+import { Transform, pipeline } from 'node:stream'
 
-const { promisify } = require('util')
-const stream = require('stream')
+import vfs from 'vinyl-fs'
 
-const vfs = require('vinyl-fs')
-
-const factory = require('../index')
+import factory from '../index.js'
 
 // ////////////////////////////////
 // ////////////////////////////////
@@ -13,7 +11,7 @@ const factory = require('../index')
 // ////////////////////////////////
 // ////////////////////////////////
 
-module.exports = yargs => yargs
+export default (yargs) => yargs
   .command(
     'cipher <file> <secret>',
     'Cipher json files',
@@ -45,7 +43,7 @@ module.exports = yargs => yargs
 // Main job
 // ////////////////////////////////
 
-const perform = async (action, argv) => {
+export const perform = async (action, argv) => {
   const options = {}
   const secret = argv.secret
 
@@ -57,7 +55,7 @@ const perform = async (action, argv) => {
 
   const cipherObject = factory(secret, options)
 
-  const cipher = new stream.Transform({ objectMode: true })
+  const cipher = new Transform({ objectMode: true })
   cipher._transform = (file, enc, cb) => {
     try {
       const json = JSON.parse(file.contents)
@@ -65,14 +63,14 @@ const perform = async (action, argv) => {
       file.contents = Buffer.from(JSON.stringify(data, null, 2))
       cb(null, file)
     } catch (e) {
-      // failed to parse json/(de)cipher it
+      // Failed to parse json/(de)cipher it
       console.log(`Warning: unable to ${action} ${file.path}`)
       cb(null, null)
     }
   }
 
   const renameFile = (ext) => {
-    const transform = new stream.Transform({ objectMode: true })
+    const transform = new Transform({ objectMode: true })
     transform._transform = (file, enc, cb) => {
       file.extname = ext
       cb(null, file)
@@ -80,8 +78,8 @@ const perform = async (action, argv) => {
     return transform
   }
 
-  const pipeline = promisify(stream.pipeline)
-  await pipeline(
+  const pPipeline = promisify(pipeline)
+  await pPipeline(
     vfs.src(argv.file),
     cipher,
     renameFile(ext),
