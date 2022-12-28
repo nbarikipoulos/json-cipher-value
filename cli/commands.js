@@ -4,40 +4,51 @@ import { Transform, pipeline } from 'node:stream'
 import vfs from 'vinyl-fs'
 
 import factory from '../index.js'
+import getArg from './arguments.js'
 
-// ////////////////////////////////
-// ////////////////////////////////
-// Public API
-// ////////////////////////////////
-// ////////////////////////////////
+export default [{
+  cmd: 'cipher <file> <secret>',
+  desc: 'Cipher json files',
+  builder: (yargs) => {
+    const helper = new Helper(yargs)
 
-export default (yargs) => yargs
-  .command(
-    'cipher <file> <secret>',
-    'Cipher json files',
-    yargs => addOptions(
-      yargs,
-      'cipher',
-      'dest', 'extension'
-    ),
-    argv => perform('cipher', argv)
-  )
-  .command(
-    'decipher <file> <secret>',
-    'Decipher json files',
-    yargs => addOptions(
-      yargs,
-      'decipher',
-      'dest'
-    ),
-    argv => perform('decipher', argv)
-  )
+    helper.addOptions('dest', 'ext')
+      .addPositional('file')
+      .addPositional('secret')
+      .yargs
+      .strict()
+      .example(
+        '$0 cipher src/data/**/*.json  \'My secret password\'',
+        'Cipher all json file in src/data to *.cjson files'
+      )
+      .example(
+        '$0 cipher my.json -e .json -d target \'My secret password\'',
+        'Cipher file my.json to ./target/my.json'
+      )
+  },
+  handler: (argv) => perform('cipher', argv)
+}, {
+  cmd: 'decipher <file> <secret>',
+  desc: 'Decipher json files',
+  builder: (yargs) => {
+    const helper = new Helper(yargs)
 
-// ////////////////////////////////
-// ////////////////////////////////
-// Private
-// ////////////////////////////////
-// ////////////////////////////////
+    helper.addOptions('dest')
+      .addPositional('file')
+      .addPositional('secret')
+      .yargs
+      .strict()
+      .example(
+        '$0 decipher src/data/**/*.cjson  \'My secret password\'',
+        'Decipher all cjson file in src/data'
+      )
+      .example(
+        '$0 decipher my.cjson -d target \'My secret password\'',
+        'Decipher file my.cjson to ./target/my.json'
+      )
+  },
+  handler: (argv) => perform('decipher', argv)
+}]
 
 // ////////////////////////////////
 // Main job
@@ -53,10 +64,29 @@ export const perform = async (action, argv) => {
     ? argv.d
     : (file) => file.base
 
-  const cipherObject = factory(secret, options)
+  const cipher = cipherFile(
+    action,
+    factory(secret, options)
+  )
 
-  const cipher = new Transform({ objectMode: true })
-  cipher._transform = (file, enc, cb) => {
+  const rename = renameFile(ext)
+
+  const pPipeline = promisify(pipeline)
+  await pPipeline(
+    vfs.src(argv.file),
+    cipher,
+    rename,
+    vfs.dest(tgtFolder)
+  )
+}
+
+// ////////////////////////////////
+// Streams
+// ////////////////////////////////
+
+const cipherFile = (action, cipherObject) => {
+  const transform = new Transform({ objectMode: true })
+  transform._transform = (file, enc, cb) => {
     try {
       const json = JSON.parse(file.contents)
       const data = cipherObject.perform(action, json)
@@ -69,67 +99,42 @@ export const perform = async (action, argv) => {
     }
   }
 
-  const renameFile = (ext) => {
-    const transform = new Transform({ objectMode: true })
-    transform._transform = (file, enc, cb) => {
-      file.extname = ext
-      cb(null, file)
-    }
-    return transform
+  return transform
+}
+
+const renameFile = (ext) => {
+  const transform = new Transform({ objectMode: true })
+  transform._transform = (file, enc, cb) => {
+    file.extname = ext
+    cb(null, file)
+  }
+  return transform
+}
+
+// ////////////////////////////////
+// CLI helper
+// ////////////////////////////////
+
+class Helper {
+  constructor (yargs) {
+    this._yargs = yargs
   }
 
-  const pPipeline = promisify(pipeline)
-  await pPipeline(
-    vfs.src(argv.file),
-    cipher,
-    renameFile(ext),
-    vfs.dest(tgtFolder)
-  )
-}
+  get yargs () { return this._yargs }
 
-// ////////////////////////////////
-// CLI misc.
-// ////////////////////////////////
-
-const addOptions = (yargs, action, ...options) => {
-  options.forEach(name => {
-    const desc = _ARG_DESC[name]
-    yargs.option(desc.key, desc.detail)
-  })
-
-  const prefix = action === 'cipher' ? '' : 'de'
-
-  yargs
-    .positional('file', {
-      describe: `Target file (globs supported for multi files ${prefix}ciphering)`,
-      type: 'string'
-    })
-    .positional('secret', {
-      describe: 'Secret key or password',
-      type: 'string'
-    })
-    .example(
-      `$0 ${action} src/data/**/*.json  'My secret password'`,
-      `${prefix}cipher all json file in src/data`
-    )
-}
-
-const _ARG_DESC = {
-  dest: {
-    key: 'd',
-    detail: {
-      alias: 'dest',
-      type: 'string',
-      describe: 'Target folder (use source folder if not set).'
+  addOptions (...optionNames) {
+    for (const name of optionNames) {
+      const desc = getArg(name)
+      this._yargs.options(desc.key, desc.opt)
     }
-  },
-  extension: {
-    key: 'E',
-    detail: {
-      alias: 'ext',
-      type: 'string',
-      default: '.cjson',
-      describe: 'File extension for ciphered json'
-    }
+
+    return this
+  }
+
+  addPositional (key, cliKey = key) {
+    const desc = getArg(key)
+    this._yargs.positional(cliKey, desc.opt)
+
+    return this
   }
 }

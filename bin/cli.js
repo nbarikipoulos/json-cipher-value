@@ -13,7 +13,14 @@ yarg
   .locale('en')
 
 // add (de)cipher commands
-commands(yarg)
+for (const command of commands) {
+  yarg.command(
+    command.cmd,
+    command.desc,
+    command.builder,
+    command.handler
+  )
+}
 
 // At last, common options
 yarg

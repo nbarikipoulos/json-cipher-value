@@ -1,5 +1,4 @@
 /**
- *
  * This module is a simple (de)ciphering module based on the build-in
  * [crypto]{@link https://nodejs.org/api/crypto.html} node module. It performs
  * **recursive** (de)ciphering of the values of an object remaining their types.
