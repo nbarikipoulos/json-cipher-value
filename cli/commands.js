@@ -60,8 +60,14 @@ export const perform = async (action, argv) => {
 
   const ext = action === 'cipher' ? argv.E : '.json'
 
+  // win issue with vinyl-fs
+  const [glob, dest] = [
+    argv.file,
+    argv.d ?? ''
+  ].map(e => e.replace(/\\/g, '/'))
+
   const tgtFolder = argv.d
-    ? argv.d
+    ? dest
     : (file) => file.base
 
   const cipher = cipherFile(
@@ -69,13 +75,11 @@ export const perform = async (action, argv) => {
     factory(secret, options)
   )
 
-  const rename = renameFile(ext)
-
   const pPipeline = promisify(pipeline)
   await pPipeline(
-    vfs.src(argv.file),
+    vfs.src(glob),
     cipher,
-    rename,
+    renameFile(ext),
     vfs.dest(tgtFolder)
   )
 }

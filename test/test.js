@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import assert from 'node:assert'
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import { URL, fileURLToPath, pathToFileURL } from 'node:url'
@@ -274,10 +274,10 @@ describe('Module facing factory', () => {
 
 describe('CLI test (files)', () => {
   const __dirname = new URL('.', import.meta.url)
-
+  const testDirTargetPath = 'test_dir/'
   const secret = 'My secret password'
   const testDir = new URL(
-    'test_dir/',
+    testDirTargetPath,
     pathToFileURL(join(cwd(), '/'))
   )
   const testDirPath = fileURLToPath(testDir)
@@ -350,6 +350,35 @@ describe('CLI test (files)', () => {
         new URL('./ateam.json', __dirname)
       ))
       assert.deepStrictEqual(resultObject, refObject)
+    })
+  })
+
+  describe('win32 pathes (viynil-fs issues)', () => {
+    const tgtDirWin = '.\\test_dir\\dummy'
+
+    before(async () => {
+      await perform('cipher', {
+        file: '.\\test\\folder\\**\\*.json',
+        secret,
+        E: '.cjson',
+        d: tgtDirWin
+      })
+    })
+
+    it('Target folder should have been created', async () => {
+      assert.ok(existsSync(tgtDirWin))
+    })
+
+    it('Structure of the entry folders should have been retained', async () => {
+      assert.ok(existsSync(`${tgtDirWin}\\sub\\deep`))
+    })
+
+    it('Result files should be located at its good place...', () => {
+      assert.ok(existsSync(`${tgtDirWin}\\dummy.cjson`))
+    })
+
+    it('Result file should be located at its good place (deep folders)', () => {
+      assert.ok(existsSync(`${tgtDirWin}\\sub\\deep\\dummy.cjson`))
     })
   })
 })
