@@ -1,6 +1,6 @@
 {
   "name": "json-cipher-value",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "type": "module",
   "description": "Recursively (de)ciphering values of object retaining their types.",
   "bin": {
