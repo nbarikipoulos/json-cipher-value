@@ -14,7 +14,7 @@ a (de)ciphering object.
 Note default settings use aes-256-crt ciphering.
 
 **See**: [https://nodejs.org/api/crypto.html](https://nodejs.org/api/crypto.html) for further information.  
-**Version**: 3.0.0  
+**Version**: 3.0.1  
 
 * [json-cipher-value](#module_json-cipher-value)
     * _static_
