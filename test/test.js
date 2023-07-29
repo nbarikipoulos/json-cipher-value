@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { cwd } from 'node:process'
 import { URL, fileURLToPath, pathToFileURL } from 'node:url'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 
 import { CipherObject, tr } from '#lib'
 import factory from '../index.js'
